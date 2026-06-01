@@ -7,40 +7,31 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #222; display: flex; flex-direction: column; min-height: 100vh; }
-
-/* TOPBAR */
 .topbar { background: linear-gradient(135deg, #3483fa 0%, #1a5fd4 100%); color: #fff; padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(52,131,250,0.3); }
 .topbar-left { display: flex; align-items: center; gap: 12px; }
 .topbar-logo { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .topbar-title { font-size: 16px; font-weight: 700; }
 .topbar-sub { font-size: 12px; opacity: 0.8; margin-top: 1px; }
 .topbar-right { display: flex; align-items: center; gap: 10px; }
-.btn-refresh { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.btn-refresh { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; }
 .btn-refresh:hover { background: rgba(255,255,255,0.3); }
 .btn-logout { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 13px; }
-
-/* LAYOUT */
+.auto-badge { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: rgba(255,255,255,0.9); }
 .app-body { display: flex; flex: 1; }
-
-/* SIDEBAR */
-.sidebar { width: 220px; background: #fff; border-right: 1px solid #e8e8e8; padding: 1rem 0; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; flex-shrink: 0; }
+.sidebar { width: 230px; background: #fff; border-right: 1px solid #e8e8e8; padding: 1rem 0; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; flex-shrink: 0; }
 .sidebar-section { padding: 0.5rem 1rem 0.25rem; font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.5rem; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; border-radius: 0; transition: all 0.15s; border-left: 3px solid transparent; font-size: 14px; color: #555; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; font-size: 14px; color: #555; }
 .nav-item:hover { background: #f5f8ff; color: #3483fa; }
 .nav-item.active { background: #f0f5ff; color: #3483fa; border-left-color: #3483fa; font-weight: 600; }
 .nav-item .nav-emoji { font-size: 18px; width: 24px; text-align: center; }
-.nav-badge { margin-left: auto; background: #ff4757; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px; }
-
-/* MAIN CONTENT */
+.nav-badge { margin-left: auto; background: #ff4757; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
 .main { flex: 1; padding: 1.5rem; overflow-y: auto; min-width: 0; }
 .section { display: none; }
 .section.active { display: block; }
 .section-header { margin-bottom: 1.25rem; }
 .section-header h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
 .section-header p { font-size: 13px; color: #888; margin-top: 3px; }
-
-/* METRICS GRID */
-.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
 .metric { background: #fff; border-radius: 14px; padding: 1.25rem; border: 1px solid #eee; transition: transform 0.2s, box-shadow 0.2s; }
 .metric:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .metric-icon { font-size: 22px; margin-bottom: 8px; }
@@ -51,22 +42,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .metric-blue .metric-val { color: #3483fa; }
 .metric-orange .metric-val { color: #e17055; }
 .metric-purple .metric-val { color: #6c5ce7; }
-
-/* CARDS */
+.metric-red .metric-val { color: #e74c3c; }
 .card { background: #fff; border-radius: 14px; border: 1px solid #eee; padding: 1.25rem; margin-bottom: 1rem; }
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 .card-title { font-size: 15px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-
-/* TABLES */
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; font-size: 11px; font-weight: 600; color: #aaa; padding: 8px 10px; border-bottom: 2px solid #f5f5f5; text-transform: uppercase; letter-spacing: 0.04em; }
 td { padding: 12px 10px; border-bottom: 1px solid #f8f8f8; vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fafbff; }
-
-/* BADGES */
 .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 .badge-green { background: #e6f9f0; color: #00b894; }
 .badge-yellow { background: #fff8e1; color: #f39c12; }
@@ -74,67 +59,52 @@ tr:hover td { background: #fafbff; }
 .badge-gray { background: #f0f0f0; color: #888; }
 .badge-blue { background: #e8f0fe; color: #3483fa; }
 .badge-purple { background: #f0ebff; color: #6c5ce7; }
-
-/* PROGRESS BAR */
 .progress-wrap { background: #f0f0f0; border-radius: 4px; height: 6px; margin-top: 6px; }
 .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #3483fa, #6c5ce7); }
-
-/* STAT ROWS */
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
 .stat-row:last-child { border-bottom: none; }
 .stat-label { color: #666; }
 .stat-val { font-weight: 600; color: #222; }
-
-/* QUESTION ITEM */
-.question-item { padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
-.question-item:last-child { border-bottom: none; }
-.question-text { font-size: 14px; color: #333; margin-bottom: 5px; line-height: 1.4; }
-.question-meta { font-size: 12px; color: #aaa; }
-.question-product { font-size: 12px; color: #3483fa; margin-top: 3px; }
-
-/* ALERTS */
 .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 10px; font-size: 14px; display: flex; align-items: flex-start; gap: 10px; }
 .alert-warn { background: #fff8e1; border-left: 4px solid #f39c12; color: #7d5a00; }
 .alert-success { background: #e6f9f0; border-left: 4px solid #00b894; color: #005c3a; }
 .alert-info { background: #e8f0fe; border-left: 4px solid #3483fa; color: #1a3a6b; }
 .alert-danger { background: #ffeaea; border-left: 4px solid #e74c3c; color: #7d1a1a; }
-
-/* EMPTY STATE */
 .empty { text-align: center; padding: 2.5rem; color: #ccc; font-size: 14px; }
 .empty-icon { font-size: 40px; margin-bottom: 10px; }
-
-/* LOADING */
 .loading { text-align: center; padding: 3rem; color: #aaa; font-size: 14px; }
-
-/* AUTH */
+/* MENSAJES */
+.msg-list { display: flex; flex-direction: column; gap: 0; }
+.msg-item { padding: 14px 0; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background 0.15s; }
+.msg-item:hover { background: #fafbff; }
+.msg-item:last-child { border-bottom: none; }
+.msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.msg-buyer { font-size: 14px; font-weight: 600; color: #333; }
+.msg-date { font-size: 12px; color: #aaa; }
+.msg-product { font-size: 12px; color: #3483fa; margin-bottom: 4px; }
+.msg-text { font-size: 13px; color: #666; line-height: 1.4; }
+.msg-unread .msg-buyer { color: #3483fa; }
+.msg-unread-dot { display: inline-block; width: 8px; height: 8px; background: #3483fa; border-radius: 50%; margin-right: 6px; }
+.question-item { padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+.question-item:last-child { border-bottom: none; }
+.question-text { font-size: 14px; color: #333; margin-bottom: 5px; line-height: 1.4; }
+.question-meta { font-size: 12px; color: #aaa; }
+.question-product { font-size: 12px; color: #3483fa; margin-top: 3px; }
 #auth-screen { max-width: 400px; margin: 4rem auto; background: #fff; border-radius: 20px; padding: 2.5rem; border: 1px solid #eee; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-#auth-screen .auth-logo { font-size: 48px; text-align: center; margin-bottom: 1rem; }
+.auth-logo { font-size: 48px; text-align: center; margin-bottom: 1rem; }
 #auth-screen h2 { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 0.5rem; }
 #auth-screen p { font-size: 14px; color: #888; text-align: center; margin-bottom: 2rem; }
 label { display: block; font-size: 13px; color: #555; font-weight: 500; margin-bottom: 5px; margin-top: 16px; }
 input { width: 100%; padding: 11px 14px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 14px; outline: none; transition: border-color 0.2s; }
 input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1); }
-.btn-primary { width: 100%; margin-top: 1.5rem; padding: 13px; background: linear-gradient(135deg, #3483fa, #1a5fd4); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+.btn-primary { width: 100%; margin-top: 1.5rem; padding: 13px; background: linear-gradient(135deg, #3483fa, #1a5fd4); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
 .btn-primary:hover { opacity: 0.9; }
 .error-msg { background: #ffeaea; border-radius: 8px; padding: 10px 14px; color: #e74c3c; font-size: 13px; margin-top: 12px; display: none; }
-
-/* SHIPMENT STATUS */
-.ship-timeline { display: flex; flex-direction: column; gap: 0; }
-.ship-step { display: flex; gap: 12px; padding: 10px 0; }
-.ship-dot { width: 12px; height: 12px; border-radius: 50%; background: #3483fa; margin-top: 3px; flex-shrink: 0; }
-.ship-dot.done { background: #00b894; }
-.ship-dot.pending { background: #ddd; }
-.ship-line { width: 2px; background: #f0f0f0; margin: 0 5px; flex-shrink: 0; }
-
-@media(max-width:768px) {
-  .sidebar { display: none; }
-  .grid2, .grid3 { grid-template-columns: 1fr; }
-}
+@media(max-width:768px) { .sidebar { display: none; } .grid2 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-logo">🛒</div>
   <h2>Dashboard ML</h2>
@@ -147,10 +117,7 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
   <div class="error-msg" id="error-box"></div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none; flex-direction:column; min-height:100vh;">
-
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-left">
       <div class="topbar-logo">🏠</div>
@@ -160,131 +127,87 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
       </div>
     </div>
     <div class="topbar-right">
+      <span class="auto-badge" id="auto-badge">⏱ Actualizando...</span>
       <button class="btn-refresh" onclick="loadAll()">↻ Actualizar</button>
       <button class="btn-logout" onclick="logout()">Salir</button>
     </div>
   </div>
 
   <div class="app-body">
-    <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-section">Principal</div>
-      <div class="nav-item active" onclick="showSection('resumen', this)">
-        <span class="nav-emoji">📊</span> Resumen
-      </div>
-      <div class="nav-item" onclick="showSection('ventas', this)">
-        <span class="nav-emoji">🛒</span> Ventas
-      </div>
-      <div class="nav-item" onclick="showSection('envios', this)">
-        <span class="nav-emoji">✈️</span> Envíos
-      </div>
-      <div class="nav-item" onclick="showSection('publicaciones', this)">
-        <span class="nav-emoji">📦</span> Publicaciones
-      </div>
-      <div class="sidebar-section">Atención</div>
-      <div class="nav-item" onclick="showSection('preguntas', this)">
-        <span class="nav-emoji">💬</span> Preguntas
-        <span class="nav-badge" id="badge-preguntas" style="display:none;">0</span>
-      </div>
-      <div class="nav-item" onclick="showSection('reclamos', this)">
-        <span class="nav-emoji">⚠️</span> Reclamos
-      </div>
+      <div class="nav-item active" onclick="showSection('resumen',this)"><span class="nav-emoji">📊</span> Resumen</div>
+      <div class="nav-item" onclick="showSection('ventas',this)"><span class="nav-emoji">🛒</span> Ventas</div>
+      <div class="nav-item" onclick="showSection('envios',this)"><span class="nav-emoji">✈️</span> Envíos</div>
+      <div class="nav-item" onclick="showSection('publicaciones',this)"><span class="nav-emoji">📦</span> Publicaciones</div>
+      <div class="sidebar-section">Comunicación</div>
+      <div class="nav-item" onclick="showSection('mensajes',this)"><span class="nav-emoji">✉️</span> Mensajes <span class="nav-badge" id="badge-mensajes" style="display:none">0</span></div>
+      <div class="nav-item" onclick="showSection('preguntas',this)"><span class="nav-emoji">💬</span> Preguntas <span class="nav-badge" id="badge-preguntas" style="display:none">0</span></div>
+      <div class="nav-item" onclick="showSection('reclamos',this)"><span class="nav-emoji">⚠️</span> Reclamos</div>
       <div class="sidebar-section">Finanzas</div>
-      <div class="nav-item" onclick="showSection('finanzas', this)">
-        <span class="nav-emoji">💰</span> Finanzas
-      </div>
-      <div class="nav-item" onclick="showSection('publicidad', this)">
-        <span class="nav-emoji">📣</span> Publicidad
-      </div>
+      <div class="nav-item" onclick="showSection('finanzas',this)"><span class="nav-emoji">💰</span> Finanzas</div>
+      <div class="nav-item" onclick="showSection('publicidad',this)"><span class="nav-emoji">📣</span> Publicidad</div>
       <div class="sidebar-section">Inteligencia</div>
-      <div class="nav-item" onclick="showSection('analisis', this)">
-        <span class="nav-emoji">📈</span> Análisis
-      </div>
-      <div class="nav-item" onclick="showSection('reputacion', this)">
-        <span class="nav-emoji">⭐</span> Reputación
-      </div>
+      <div class="nav-item" onclick="showSection('analisis',this)"><span class="nav-emoji">📈</span> Análisis</div>
+      <div class="nav-item" onclick="showSection('reputacion',this)"><span class="nav-emoji">⭐</span> Reputación</div>
     </div>
 
-    <!-- MAIN -->
     <div class="main">
 
       <!-- RESUMEN -->
       <div class="section active" id="sec-resumen">
-        <div class="section-header">
-          <h2>📊 Resumen general</h2>
-          <p>Vista completa de tu cuenta en tiempo real</p>
-        </div>
+        <div class="section-header"><h2>📊 Resumen general</h2><p>Vista completa actualizada cada 5 minutos</p></div>
         <div class="metrics" id="metrics-resumen"><div class="loading">Cargando...</div></div>
         <div class="grid2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">📅 Ventas por día</div></div>
-            <div id="ventas-dia"></div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">🏆 Top productos</div></div>
-            <div id="top-productos"></div>
-          </div>
+          <div class="card"><div class="card-header"><div class="card-title">📅 Ventas por día</div></div><div id="ventas-dia"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">🏆 Top productos</div></div><div id="top-productos"></div></div>
         </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">💡 Alertas y recomendaciones</div></div>
-          <div id="alertas"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">💡 Alertas</div></div><div id="alertas"></div></div>
       </div>
 
       <!-- VENTAS -->
       <div class="section" id="sec-ventas">
-        <div class="section-header">
-          <h2>🛒 Ventas</h2>
-          <p>Historial completo de tus órdenes</p>
-        </div>
+        <div class="section-header"><h2>🛒 Ventas</h2><p>Historial completo de órdenes</p></div>
         <div class="metrics" id="metrics-ventas"><div class="loading">Cargando...</div></div>
         <div class="card">
           <div class="card-header"><div class="card-title">📋 Todas las ventas</div></div>
-          <table>
-            <thead><tr><th>Producto</th><th>Monto</th><th>Comprador</th><th>Estado</th><th>Fecha</th></tr></thead>
-            <tbody id="tabla-ventas"></tbody>
-          </table>
+          <table><thead><tr><th>Producto</th><th>Monto</th><th>Comprador</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="tabla-ventas"></tbody></table>
         </div>
       </div>
 
       <!-- ENVÍOS -->
       <div class="section" id="sec-envios">
-        <div class="section-header">
-          <h2>✈️ Envíos</h2>
-          <p>Estado de todos tus envíos activos</p>
-        </div>
+        <div class="section-header"><h2>✈️ Envíos</h2><p>Estado de todos tus envíos</p></div>
         <div class="metrics" id="metrics-envios"><div class="loading">Cargando...</div></div>
         <div class="card">
           <div class="card-header"><div class="card-title">📬 Envíos recientes</div></div>
-          <table>
-            <thead><tr><th>Producto</th><th>Destino</th><th>Estado envío</th><th>Fecha</th></tr></thead>
-            <tbody id="tabla-envios"></tbody>
-          </table>
+          <table><thead><tr><th>Producto</th><th>Comprador</th><th>Destino</th><th>Estado envío</th><th>Fecha</th></tr></thead><tbody id="tabla-envios"></tbody></table>
         </div>
       </div>
 
       <!-- PUBLICACIONES -->
       <div class="section" id="sec-publicaciones">
-        <div class="section-header">
-          <h2>📦 Publicaciones</h2>
-          <p>Tus productos activos en Mercado Libre</p>
-        </div>
+        <div class="section-header"><h2>📦 Publicaciones</h2><p>Tus productos en Mercado Libre</p></div>
         <div class="metrics" id="metrics-publi"><div class="loading">Cargando...</div></div>
         <div class="card">
           <div class="card-header"><div class="card-title">🗂 Mis publicaciones</div></div>
-          <table>
-            <thead><tr><th>Título</th><th>Precio</th><th>Stock</th><th>Visitas</th><th>Estado</th></tr></thead>
-            <tbody id="tabla-items"></tbody>
-          </table>
+          <table><thead><tr><th>Título</th><th>Precio</th><th>Stock</th><th>Visitas 30d</th><th>Estado</th></tr></thead><tbody id="tabla-items"></tbody></table>
+        </div>
+      </div>
+
+      <!-- MENSAJES -->
+      <div class="section" id="sec-mensajes">
+        <div class="section-header"><h2>✉️ Mensajes</h2><p>Mensajes de tus compradores post-compra</p></div>
+        <div class="metrics" id="metrics-mensajes"><div class="loading">Cargando...</div></div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">💌 Conversaciones recientes</div></div>
+          <div id="lista-mensajes"><div class="loading">Cargando...</div></div>
         </div>
       </div>
 
       <!-- PREGUNTAS -->
       <div class="section" id="sec-preguntas">
-        <div class="section-header">
-          <h2>💬 Preguntas</h2>
-          <p>Preguntas sin responder de tus compradores</p>
-        </div>
+        <div class="section-header"><h2>💬 Preguntas</h2><p>Preguntas sin responder</p></div>
         <div class="card">
           <div class="card-header"><div class="card-title">❓ Sin responder</div></div>
           <div id="lista-preguntas"><div class="loading">Cargando...</div></div>
@@ -293,10 +216,7 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 
       <!-- RECLAMOS -->
       <div class="section" id="sec-reclamos">
-        <div class="section-header">
-          <h2>⚠️ Reclamos</h2>
-          <p>Mediaciones y casos abiertos</p>
-        </div>
+        <div class="section-header"><h2>⚠️ Reclamos</h2><p>Mediaciones y casos abiertos</p></div>
         <div class="card">
           <div class="card-header"><div class="card-title">📂 Casos activos</div></div>
           <div id="lista-reclamos"><div class="loading">Cargando...</div></div>
@@ -305,69 +225,36 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 
       <!-- FINANZAS -->
       <div class="section" id="sec-finanzas">
-        <div class="section-header">
-          <h2>💰 Finanzas</h2>
-          <p>Ingresos, cargos y balance de tu cuenta</p>
-        </div>
+        <div class="section-header"><h2>💰 Finanzas</h2><p>Ingresos, cargos y balance</p></div>
         <div class="metrics" id="metrics-finanzas"><div class="loading">Cargando...</div></div>
         <div class="grid2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">📊 Resumen financiero</div></div>
-            <div id="resumen-financiero"></div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">🧾 Últimos movimientos</div></div>
-            <div id="movimientos"></div>
-          </div>
+          <div class="card"><div class="card-header"><div class="card-title">📊 Resumen financiero</div></div><div id="resumen-financiero"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">🧾 Movimientos</div></div><div id="movimientos"></div></div>
         </div>
       </div>
 
       <!-- PUBLICIDAD -->
       <div class="section" id="sec-publicidad">
-        <div class="section-header">
-          <h2>📣 Publicidad</h2>
-          <p>Métricas de tus campañas de Mercado Ads</p>
-        </div>
+        <div class="section-header"><h2>📣 Publicidad</h2><p>Métricas de Mercado Ads</p></div>
         <div class="metrics" id="metrics-ads"><div class="loading">Cargando...</div></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">💡 Análisis de inversión publicitaria</div></div>
-          <div id="analisis-ads"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">💡 Análisis de inversión</div></div><div id="analisis-ads"></div></div>
       </div>
 
       <!-- ANÁLISIS -->
       <div class="section" id="sec-analisis">
-        <div class="section-header">
-          <h2>📈 Análisis</h2>
-          <p>Métricas avanzadas y proyecciones de tu negocio</p>
-        </div>
+        <div class="section-header"><h2>📈 Análisis</h2><p>Métricas avanzadas y proyecciones</p></div>
         <div class="grid2">
-          <div class="card">
-            <div class="card-header"><div class="card-title">📐 Métricas clave</div></div>
-            <div id="metricas-clave"></div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">🔮 Proyección mensual</div></div>
-            <div id="proyeccion"></div>
-          </div>
+          <div class="card"><div class="card-header"><div class="card-title">📐 Métricas clave</div></div><div id="metricas-clave"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">🔮 Proyección mensual</div></div><div id="proyeccion"></div></div>
         </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">🤝 Modelo con socio</div></div>
-          <div id="modelo-socio"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">🤝 Modelo con socio</div></div><div id="modelo-socio"></div></div>
       </div>
 
       <!-- REPUTACIÓN -->
       <div class="section" id="sec-reputacion">
-        <div class="section-header">
-          <h2>⭐ Reputación</h2>
-          <p>Tu nivel y métricas de vendedor</p>
-        </div>
+        <div class="section-header"><h2>⭐ Reputación</h2><p>Tu nivel como vendedor</p></div>
         <div class="metrics" id="metrics-rep"><div class="loading">Cargando...</div></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">📋 Detalle de reputación</div></div>
-          <div id="detalle-rep"></div>
-        </div>
+        <div class="card"><div class="card-header"><div class="card-title">📋 Detalle</div></div><div id="detalle-rep"></div></div>
       </div>
 
     </div>
@@ -377,16 +264,12 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 <script>
 const BASE = window.location.origin;
 let DATA = {};
+let autoInterval = null;
+let countdown = 300;
+let countdownInterval = null;
 
-function showError(msg) {
-  const b = document.getElementById('error-box');
-  b.textContent = msg; b.style.display = 'block';
-}
-
-function logout() {
-  localStorage.clear();
-  window.location.reload();
-}
+function showError(msg) { const b = document.getElementById('error-box'); b.textContent = msg; b.style.display = 'block'; }
+function logout() { localStorage.clear(); location.reload(); }
 
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
@@ -401,11 +284,7 @@ async function exchangeCode(code) {
   const cid = localStorage.getItem('ml_cid');
   const cs = localStorage.getItem('ml_csecret');
   try {
-    const r = await fetch('/api/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, client_id: cid, client_secret: cs, redirect_uri: BASE+'/' })
-    });
+    const r = await fetch('/api/token', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({code, client_id:cid, client_secret:cs, redirect_uri:BASE+'/'}) });
     const d = await r.json();
     if (d.access_token) {
       localStorage.setItem('ml_token', d.access_token);
@@ -416,30 +295,38 @@ async function exchangeCode(code) {
       document.getElementById('auth-screen').style.display = 'block';
       showError('Error: ' + (d.message || JSON.stringify(d)));
     }
-  } catch(e) {
-    document.getElementById('auth-screen').style.display = 'block';
-    showError('Error: ' + e.message);
-  }
+  } catch(e) { document.getElementById('auth-screen').style.display='block'; showError('Error: '+e.message); }
 }
 
 function showSection(name, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
+  document.getElementById('sec-'+name).classList.add('active');
   if (el) el.classList.add('active');
+}
+
+function startAutoRefresh() {
+  countdown = 300;
+  if (autoInterval) clearInterval(autoInterval);
+  if (countdownInterval) clearInterval(countdownInterval);
+  autoInterval = setInterval(() => { loadAll(); }, 300000);
+  countdownInterval = setInterval(() => {
+    countdown--;
+    if (countdown <= 0) countdown = 300;
+    const m = Math.floor(countdown/60);
+    const s = countdown%60;
+    const badge = document.getElementById('auto-badge');
+    if (badge) badge.textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+  }, 1000);
 }
 
 function fmt(n) { return '$' + Math.round(n||0).toLocaleString('es-AR'); }
 function fmtDate(d) { return d ? new Date(d).toLocaleDateString('es-AR') : '—'; }
+function fmtTime(d) { return d ? new Date(d).toLocaleString('es-AR', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—'; }
 
 function badge(s) {
-  const map = {
-    paid: ['pagado','green'], active: ['activo','green'], pending: ['pendiente','yellow'],
-    closed: ['cerrado','gray'], paused: ['pausado','yellow'], cancelled: ['cancelado','red'],
-    delivered: ['entregado','green'], shipped: ['enviado','blue'], handling: ['preparando','yellow'],
-    ready_to_ship: ['listo','blue'], not_delivered: ['no entregado','red']
-  };
-  const [label, color] = map[s] || [s||'—', 'gray'];
+  const map = { paid:['pagado','green'], active:['activo','green'], pending:['pendiente','yellow'], closed:['cerrado','gray'], paused:['pausado','yellow'], cancelled:['cancelado','red'], delivered:['entregado','green'], shipped:['enviado','blue'], handling:['preparando','yellow'], ready_to_ship:['listo para enviar','blue'], not_delivered:['no entregado','red'], in_transit:['en camino','blue'] };
+  const [label, color] = map[s] || [s||'—','gray'];
   return `<span class="badge badge-${color}">${label}</span>`;
 }
 
@@ -447,137 +334,141 @@ async function loadAll() {
   const token = localStorage.getItem('ml_token');
   const uid = localStorage.getItem('ml_uid');
   if (!token) return;
-
   try {
-    const [dataR, statsR] = await Promise.all([
+    const [dataR, statsR, msgsR] = await Promise.all([
       fetch(`/api/data?token=${token}&uid=${uid}`),
-      fetch(`/api/stats?token=${token}&uid=${uid}`)
+      fetch(`/api/stats?token=${token}&uid=${uid}`),
+      fetch(`/api/messages?token=${token}&uid=${uid}`)
     ]);
     const data = await dataR.json();
     const stats = await statsR.json();
-    DATA = { ...data, ...stats, token, uid };
-
+    const msgs = await msgsR.json();
+    DATA = { ...data, ...stats, messages: msgs.messages||[], token, uid };
     renderAll();
-  } catch(e) {
-    console.error(e);
-  }
+    startAutoRefresh();
+  } catch(e) { console.error(e); }
 }
 
 function renderAll() {
-  const { user, orders = [], items = [], questions = [] } = DATA;
+  const { user, orders=[], items=[], questions=[], messages=[] } = DATA;
 
-  // TOPBAR
-  document.getElementById('top-name').textContent = (user?.nickname || 'Mi cuenta');
-  document.getElementById('top-info').textContent = (user?.email || '');
+  document.getElementById('top-name').textContent = user?.nickname || 'Mi cuenta';
+  document.getElementById('top-info').textContent = user?.email || '';
 
-  const totalFact = orders.reduce((s,o) => s+(o.total_amount||0), 0);
+  const totalFact = orders.reduce((s,o)=>s+(o.total_amount||0),0);
   const avgTicket = orders.length ? totalFact/orders.length : 0;
   const maxVisits = Math.max(...items.map(i=>i.visits||0), 1);
   const totalVisits = items.reduce((s,i)=>s+(i.visits||0),0);
   const activeItems = items.filter(i=>i.status==='active').length;
   const ventasDia = (orders.length/30).toFixed(1);
-  const enviosPendientes = orders.filter(o=>o.shipping?.status && !['delivered'].includes(o.shipping?.status)).length;
+  const unreadMsgs = messages.filter(m=>m.status==='unread').length;
 
-  // BADGE PREGUNTAS
-  if (questions.length > 0) {
-    const b = document.getElementById('badge-preguntas');
-    b.textContent = questions.length; b.style.display = 'inline-block';
-  }
+  // BADGES
+  if (questions.length>0) { const b=document.getElementById('badge-preguntas'); b.textContent=questions.length; b.style.display='inline-block'; }
+  if (unreadMsgs>0) { const b=document.getElementById('badge-mensajes'); b.textContent=unreadMsgs; b.style.display='inline-block'; }
 
-  // ===== RESUMEN =====
+  // RESUMEN
   document.getElementById('metrics-resumen').innerHTML = `
     <div class="metric metric-blue"><div class="metric-icon">🛒</div><div class="metric-label">Ventas recientes</div><div class="metric-val">${orders.length}</div><div class="metric-sub">últimas órdenes</div></div>
     <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Facturación</div><div class="metric-val">${fmt(totalFact)}</div><div class="metric-sub">total acumulado</div></div>
     <div class="metric"><div class="metric-icon">🎯</div><div class="metric-label">Ticket promedio</div><div class="metric-val">${fmt(avgTicket)}</div><div class="metric-sub">por orden</div></div>
     <div class="metric metric-purple"><div class="metric-icon">📦</div><div class="metric-label">Publicaciones</div><div class="metric-val">${activeItems}</div><div class="metric-sub">activas</div></div>
-    <div class="metric"><div class="metric-icon">👁</div><div class="metric-label">Visitas totales</div><div class="metric-val">${totalVisits.toLocaleString('es-AR')}</div><div class="metric-sub">últimos 30 días</div></div>
-    <div class="metric metric-orange"><div class="metric-icon">💬</div><div class="metric-label">Preguntas</div><div class="metric-val">${questions.length}</div><div class="metric-sub">sin responder</div></div>
+    <div class="metric"><div class="metric-icon">👁</div><div class="metric-label">Visitas 30d</div><div class="metric-val">${totalVisits.toLocaleString('es-AR')}</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">✉️</div><div class="metric-label">Mensajes nuevos</div><div class="metric-val">${unreadMsgs}</div><div class="metric-sub">sin leer</div></div>
+    <div class="metric ${questions.length>0?'metric-red':''}"><div class="metric-icon">💬</div><div class="metric-label">Preguntas</div><div class="metric-val">${questions.length}</div><div class="metric-sub">sin responder</div></div>
   `;
 
   const byDay = {};
-  orders.forEach(o => { const d = fmtDate(o.date_created); byDay[d] = (byDay[d]||0)+1; });
-  document.getElementById('ventas-dia').innerHTML = Object.entries(byDay).slice(0,10).map(([d,n]) =>
-    `<div class="stat-row"><span class="stat-label">${d}</span><span class="stat-val">${n} venta${n>1?'s':''}</span></div>`
-  ).join('') || '<div class="empty">Sin datos</div>';
+  orders.forEach(o=>{const d=fmtDate(o.date_created); byDay[d]=(byDay[d]||0)+1;});
+  document.getElementById('ventas-dia').innerHTML = Object.entries(byDay).slice(0,10).map(([d,n])=>
+    `<div class="stat-row"><span class="stat-label">${d}</span><span class="stat-val">${n} venta${n>1?'s':''}</span></div>`).join('') || '<div class="empty">Sin datos</div>';
 
   const prodCount = {};
-  orders.forEach(o => { const t = (o.order_items?.[0]?.item?.title||'Otro').substring(0,38); prodCount[t]=(prodCount[t]||0)+1; });
-  document.getElementById('top-productos').innerHTML = Object.entries(prodCount).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([t,n]) =>
-    `<div class="stat-row"><span class="stat-label">${t}...</span><span class="badge badge-blue">${n}</span></div>`
-  ).join('') || '<div class="empty">Sin datos</div>';
+  orders.forEach(o=>{const t=(o.order_items?.[0]?.item?.title||'Otro').substring(0,35); prodCount[t]=(prodCount[t]||0)+1;});
+  document.getElementById('top-productos').innerHTML = Object.entries(prodCount).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([t,n])=>
+    `<div class="stat-row"><span class="stat-label">${t}...</span><span class="badge badge-blue">${n}</span></div>`).join('') || '<div class="empty">Sin datos</div>';
 
   const alertas = [];
-  if (questions.length > 0) alertas.push(`<div class="alert alert-warn">💬 Tenés <strong>${questions.length} pregunta${questions.length>1?'s':''}</strong> sin responder. Respondelas para mantener tu reputación.</div>`);
-  if (parseFloat(ventasDia) < 1) alertas.push(`<div class="alert alert-info">📉 Estás vendiendo menos de 1 unidad por día. Considerá aumentar la publicidad.</div>`);
-  if (parseFloat(ventasDia) >= 2) alertas.push(`<div class="alert alert-success">✅ Buen ritmo de ventas: ${ventasDia} unidades/día en promedio.</div>`);
-  alertas.push(`<div class="alert alert-info">💡 Con $72.000/día de publicidad y ticket de ${fmt(avgTicket)}, necesitás al menos <strong>${Math.ceil(72000/(avgTicket*0.15||1))} ventas/día</strong> para cubrir la inversión.</div>`);
+  if (unreadMsgs>0) alertas.push(`<div class="alert alert-warn">✉️ Tenés <strong>${unreadMsgs} mensaje${unreadMsgs>1?'s':''}</strong> sin leer de compradores.</div>`);
+  if (questions.length>0) alertas.push(`<div class="alert alert-warn">💬 Tenés <strong>${questions.length} pregunta${questions.length>1?'s':''}</strong> sin responder.</div>`);
+  if (parseFloat(ventasDia)<1) alertas.push(`<div class="alert alert-info">📉 Menos de 1 venta/día. Considerá aumentar la publicidad.</div>`);
+  if (parseFloat(ventasDia)>=2) alertas.push(`<div class="alert alert-success">✅ Buen ritmo: ${ventasDia} ventas/día en promedio.</div>`);
+  alertas.push(`<div class="alert alert-info">💡 Con $72.000/día de publicidad y ticket de ${fmt(avgTicket)}, necesitás mínimo 3 ventas/día para cubrir la inversión.</div>`);
   document.getElementById('alertas').innerHTML = alertas.join('');
 
-  // ===== VENTAS =====
+  // VENTAS
   const ventasPagadas = orders.filter(o=>o.status==='paid').length;
-  const ventasPendientes = orders.filter(o=>o.status==='pending').length;
   document.getElementById('metrics-ventas').innerHTML = `
     <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Pagadas</div><div class="metric-val">${ventasPagadas}</div></div>
-    <div class="metric metric-orange"><div class="metric-icon">⏳</div><div class="metric-label">Pendientes</div><div class="metric-val">${ventasPendientes}</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">⏳</div><div class="metric-label">Pendientes</div><div class="metric-val">${orders.length-ventasPagadas}</div></div>
     <div class="metric metric-blue"><div class="metric-icon">📅</div><div class="metric-label">Por día (prom.)</div><div class="metric-val">${ventasDia}</div></div>
     <div class="metric"><div class="metric-icon">💵</div><div class="metric-label">Facturación/día</div><div class="metric-val">${fmt(totalFact/30)}</div></div>
   `;
-  document.getElementById('tabla-ventas').innerHTML = orders.map(o => `<tr>
-    <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title||'Orden #'+o.id}</td>
-    <td>${fmt(o.total_amount)}</td>
-    <td style="color:#888;font-size:13px;">${o.buyer?.nickname||'—'}</td>
-    <td>${badge(o.status)}</td>
-    <td style="color:#aaa;font-size:13px;">${fmtDate(o.date_created)}</td>
+  document.getElementById('tabla-ventas').innerHTML = orders.map(o=>`<tr>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title||'Orden #'+o.id}</td>
+    <td>${fmt(o.total_amount)}</td><td style="color:#888;font-size:13px;">${o.buyer?.nickname||'—'}</td>
+    <td>${badge(o.status)}</td><td style="color:#aaa;font-size:13px;">${fmtDate(o.date_created)}</td>
   </tr>`).join('') || '<tr><td colspan="5" class="empty">Sin ventas</td></tr>';
 
-  // ===== ENVÍOS =====
-  const shipped = orders.filter(o=>o.shipping?.id).length;
-  const delivered = orders.filter(o=>o.shipping?.status==='delivered').length;
+  // ENVÍOS
+  const conEnvio = orders.filter(o=>o.shipping?.id);
+  const entregados = conEnvio.filter(o=>o.shipping?.status==='delivered').length;
   document.getElementById('metrics-envios').innerHTML = `
-    <div class="metric metric-blue"><div class="metric-icon">✈️</div><div class="metric-label">Con envío</div><div class="metric-val">${shipped}</div></div>
-    <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Entregados</div><div class="metric-val">${delivered}</div></div>
-    <div class="metric metric-orange"><div class="metric-icon">🚚</div><div class="metric-label">En camino</div><div class="metric-val">${shipped-delivered}</div></div>
+    <div class="metric metric-blue"><div class="metric-icon">✈️</div><div class="metric-label">Con envío</div><div class="metric-val">${conEnvio.length}</div></div>
+    <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Entregados</div><div class="metric-val">${entregados}</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">🚚</div><div class="metric-label">En camino</div><div class="metric-val">${conEnvio.length-entregados}</div></div>
   `;
-  document.getElementById('tabla-envios').innerHTML = orders.filter(o=>o.shipping?.id).map(o => `<tr>
-    <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title||'Orden #'+o.id}</td>
+  document.getElementById('tabla-envios').innerHTML = conEnvio.map(o=>`<tr>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title||'#'+o.id}</td>
+    <td style="color:#888;font-size:13px;">${o.buyer?.nickname||'—'}</td>
     <td style="color:#888;font-size:13px;">${o.shipping?.receiver_address?.city?.name||'—'}</td>
     <td>${badge(o.shipping?.status||o.status)}</td>
     <td style="color:#aaa;font-size:13px;">${fmtDate(o.date_created)}</td>
-  </tr>`).join('') || '<tr><td colspan="4" class="empty">Sin envíos</td></tr>';
+  </tr>`).join('') || '<tr><td colspan="5" class="empty">Sin envíos</td></tr>';
 
-  // ===== PUBLICACIONES =====
+  // PUBLICACIONES
   document.getElementById('metrics-publi').innerHTML = `
     <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Activas</div><div class="metric-val">${activeItems}</div></div>
     <div class="metric"><div class="metric-icon">👁</div><div class="metric-label">Visitas totales</div><div class="metric-val">${totalVisits.toLocaleString()}</div></div>
-    <div class="metric metric-blue"><div class="metric-icon">📊</div><div class="metric-label">Visitas/publi</div><div class="metric-val">${items.length ? Math.round(totalVisits/items.length) : 0}</div></div>
+    <div class="metric metric-blue"><div class="metric-icon">📊</div><div class="metric-label">Visitas/publi</div><div class="metric-val">${items.length?Math.round(totalVisits/items.length):0}</div></div>
   `;
-  document.getElementById('tabla-items').innerHTML = items.map(i => `<tr>
-    <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
-    <td>${fmt(i.price)}</td>
-    <td>${i.available_quantity??'—'}</td>
-    <td>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span>${(i.visits||0).toLocaleString()}</span>
-        <div class="progress-wrap" style="width:50px;"><div class="progress-fill" style="width:${Math.round(((i.visits||0)/maxVisits)*100)}%"></div></div>
-      </div>
-    </td>
+  document.getElementById('tabla-items').innerHTML = items.map(i=>`<tr>
+    <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
+    <td>${fmt(i.price)}</td><td>${i.available_quantity??'—'}</td>
+    <td><div style="display:flex;align-items:center;gap:8px;"><span>${(i.visits||0).toLocaleString()}</span><div class="progress-wrap" style="width:50px;"><div class="progress-fill" style="width:${Math.round(((i.visits||0)/maxVisits)*100)}%"></div></div></div></td>
     <td>${badge(i.status)}</td>
   </tr>`).join('') || '<tr><td colspan="5" class="empty">Sin publicaciones</td></tr>';
 
-  // ===== PREGUNTAS =====
-  document.getElementById('lista-preguntas').innerHTML = questions.length ? questions.map(q => `
+  // MENSAJES
+  document.getElementById('metrics-mensajes').innerHTML = `
+    <div class="metric metric-blue"><div class="metric-icon">✉️</div><div class="metric-label">Total mensajes</div><div class="metric-val">${messages.length}</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">🔴</div><div class="metric-label">Sin leer</div><div class="metric-val">${unreadMsgs}</div></div>
+    <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Leídos</div><div class="metric-val">${messages.length-unreadMsgs}</div></div>
+  `;
+  document.getElementById('lista-mensajes').innerHTML = messages.length ? messages.map(m=>`
+    <div class="msg-item ${m.status==='unread'?'msg-unread':''}">
+      <div class="msg-header">
+        <div class="msg-buyer">${m.status==='unread'?'<span class="msg-unread-dot"></span>':''} ${m.from?.nickname||'Comprador'}</div>
+        <div class="msg-date">${fmtTime(m.date_received||m.date_created)}</div>
+      </div>
+      <div class="msg-product">📦 Orden #${m.order_id||'—'}</div>
+      <div class="msg-text">${(m.text?.plain||m.message||'Sin texto').substring(0,120)}...</div>
+    </div>`).join('') : '<div class="empty"><div class="empty-icon">✉️</div>No hay mensajes recientes</div>';
+
+  // PREGUNTAS
+  document.getElementById('lista-preguntas').innerHTML = questions.length ? questions.map(q=>`
     <div class="question-item">
       <div class="question-text">${q.text}</div>
       <div class="question-meta">${fmtDate(q.date_created)}</div>
       <div class="question-product">Publicación #${q.item_id}</div>
     </div>`).join('') : '<div class="empty"><div class="empty-icon">✅</div>No tenés preguntas sin responder</div>';
 
-  // ===== RECLAMOS =====
+  // RECLAMOS
   document.getElementById('lista-reclamos').innerHTML = '<div class="empty"><div class="empty-icon">✅</div>No se detectaron reclamos activos</div>';
 
-  // ===== FINANZAS =====
-  const percepcionesEst = orders.length * 8500;
-  const comisionEst = totalFact * 0.13;
+  // FINANZAS
+  const percepcionesEst = orders.length*8500;
+  const comisionEst = totalFact*0.13;
   document.getElementById('metrics-finanzas').innerHTML = `
     <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Facturación</div><div class="metric-val">${fmt(totalFact)}</div></div>
     <div class="metric metric-orange"><div class="metric-icon">🏦</div><div class="metric-label">Percepciones est.</div><div class="metric-val">${fmt(percepcionesEst)}</div><div class="metric-sub">~$8.500/venta</div></div>
@@ -591,12 +482,10 @@ function renderAll() {
     <div class="stat-row"><span class="stat-label">Neto estimado</span><span class="stat-val" style="color:#00b894;">${fmt(totalFact-comisionEst-percepcionesEst)}</span></div>
   `;
   document.getElementById('movimientos').innerHTML = orders.slice(0,8).map(o=>`
-    <div class="stat-row"><span class="stat-label">${(o.order_items?.[0]?.item?.title||'Venta').substring(0,30)}...</span><span class="stat-val" style="color:#00b894;">+${fmt(o.total_amount)}</span></div>
-  `).join('');
+    <div class="stat-row"><span class="stat-label">${(o.order_items?.[0]?.item?.title||'Venta').substring(0,28)}...</span><span class="stat-val" style="color:#00b894;">+${fmt(o.total_amount)}</span></div>`).join('');
 
-  // ===== PUBLICIDAD =====
-  const publiDia = 12000;
-  const publiMes = publiDia * 30;
+  // PUBLICIDAD
+  const publiDia=12000, publiMes=publiDia*30;
   const costoPorVenta = orders.length ? publiMes/orders.length : 0;
   document.getElementById('metrics-ads').innerHTML = `
     <div class="metric"><div class="metric-icon">📣</div><div class="metric-label">Gasto diario actual</div><div class="metric-val">${fmt(publiDia)}</div></div>
@@ -605,63 +494,56 @@ function renderAll() {
     <div class="metric metric-blue"><div class="metric-icon">📈</div><div class="metric-label">Recomendado ML</div><div class="metric-val">$72.000</div><div class="metric-sub">por día</div></div>
   `;
   document.getElementById('analisis-ads').innerHTML = `
-    <div class="alert alert-info">📊 Con tu publicidad actual de ${fmt(publiDia)}/día, el costo por venta es de ${fmt(costoPorVenta)}.</div>
-    <div class="alert alert-warn">⚠️ ML recomienda $72.000/día. Eso significa $2.160.000/mes en publicidad.</div>
-    <div class="alert alert-success">💡 Con tu socio al 50/50, cada uno pondría $36.000/día ($1.080.000/mes). Necesitarían mínimo 3 ventas/día para que sea rentable para los dos.</div>
+    <div class="alert alert-info">📊 Con publicidad actual de ${fmt(publiDia)}/día, el costo por venta es de ${fmt(costoPorVenta)}.</div>
+    <div class="alert alert-warn">⚠️ ML recomienda $72.000/día = $2.160.000/mes en publicidad.</div>
+    <div class="alert alert-success">💡 Con tu socio al 50/50: cada uno pone $36.000/día. Necesitan mínimo 3 ventas/día para que sea rentable.</div>
   `;
 
-  // ===== ANÁLISIS =====
+  // ANÁLISIS
   const convRate = totalVisits ? ((orders.length/totalVisits)*100).toFixed(2) : 0;
   document.getElementById('metricas-clave').innerHTML = `
-    <div class="stat-row"><span class="stat-label">Ventas por día (prom.)</span><span class="stat-val">${ventasDia}</span></div>
-    <div class="stat-row"><span class="stat-label">Facturación por día</span><span class="stat-val">${fmt(totalFact/30)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ventas/día (prom.)</span><span class="stat-val">${ventasDia}</span></div>
+    <div class="stat-row"><span class="stat-label">Facturación/día</span><span class="stat-val">${fmt(totalFact/30)}</span></div>
     <div class="stat-row"><span class="stat-label">Ticket promedio</span><span class="stat-val">${fmt(avgTicket)}</span></div>
     <div class="stat-row"><span class="stat-label">Tasa de conversión</span><span class="stat-val">${convRate}%</span></div>
     <div class="stat-row"><span class="stat-label">Visitas totales 30d</span><span class="stat-val">${totalVisits.toLocaleString()}</span></div>
     <div class="stat-row"><span class="stat-label">Publicaciones activas</span><span class="stat-val">${activeItems}</span></div>
   `;
-
-  const proyFact = (totalFact/orders.length||0)*30;
+  const proyFact = avgTicket*Math.round(parseFloat(ventasDia)*30);
   document.getElementById('proyeccion').innerHTML = `
-    <div class="stat-row"><span class="stat-label">Ventas proyectadas/mes</span><span class="stat-val">${Math.round(parseFloat(ventasDia)*30)}</span></div>
-    <div class="stat-row"><span class="stat-label">Facturación proyectada</span><span class="stat-val">${fmt(proyFact)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ventas proy./mes</span><span class="stat-val">${Math.round(parseFloat(ventasDia)*30)}</span></div>
+    <div class="stat-row"><span class="stat-label">Facturación proy.</span><span class="stat-val">${fmt(proyFact)}</span></div>
     <div class="stat-row"><span class="stat-label">Publicidad actual/mes</span><span class="stat-val" style="color:#e74c3c;">-${fmt(360000)}</span></div>
-    <div class="stat-row"><span class="stat-label">Con $72k publicidad</span><span class="stat-val" style="color:#e74c3c;">-${fmt(2160000)}</span></div>
+    <div class="stat-row"><span class="stat-label">Con $72k publi/mes</span><span class="stat-val" style="color:#e74c3c;">-${fmt(2160000)}</span></div>
     <div class="stat-row"><span class="stat-label">Percepciones proy.</span><span class="stat-val" style="color:#e74c3c;">-${fmt(Math.round(parseFloat(ventasDia)*30)*8500)}</span></div>
   `;
-
-  const ganNeta = avgTicket * 0.15;
   document.getElementById('modelo-socio').innerHTML = `
-    <div class="alert alert-info">Con ticket promedio de ${fmt(avgTicket)} y margen estimado del 15%, tu ganancia por venta sería de aproximadamente ${fmt(ganNeta)}.</div>
-    <div style="margin-top:1rem;">
-    <table><thead><tr><th>Concepto</th><th>Vos (65%)</th><th>Tu socio (35%)</th></tr></thead>
-    <tbody>
+    <div class="alert alert-info">Con ticket promedio de ${fmt(avgTicket)}, necesitás definir tu margen real por producto para calcular la división exacta.</div>
+    <table style="margin-top:1rem;"><thead><tr><th>Concepto</th><th>Vos (65%)</th><th>Tu socio (35%)</th></tr></thead><tbody>
       <tr><td>Publicidad mensual</td><td style="color:#e74c3c;">-$1.080.000</td><td style="color:#e74c3c;">-$1.080.000</td></tr>
       <tr><td>Percepciones (solo vos)</td><td style="color:#e74c3c;">-${fmt(Math.round(parseFloat(ventasDia)*30)*8500)}</td><td>$0</td></tr>
-      <tr><td>% de la ganancia bruta</td><td style="color:#00b894;">65%</td><td style="color:#00b894;">35%</td></tr>
+      <tr><td>% ganancia bruta</td><td style="color:#00b894;">65%</td><td style="color:#00b894;">35%</td></tr>
     </tbody></table>
-    </div>
-    <div class="alert alert-warn" style="margin-top:1rem;">⚠️ Para que el modelo sea rentable para los dos, necesitan alcanzar mínimo 3 ventas/día con la nueva inversión en publicidad.</div>
+    <div class="alert alert-warn" style="margin-top:1rem;">⚠️ Necesitan mínimo 3 ventas/día para que el modelo sea rentable para los dos.</div>
   `;
 
-  // ===== REPUTACIÓN =====
+  // REPUTACIÓN
   const rep = DATA.user?.seller_reputation || {};
-  const level = rep.level_id || 'No disponible';
-  const levelColors = { '5_green': 'green', '4_light_green': 'green', '3_yellow': 'yellow', '2_orange': 'yellow', '1_red': 'red' };
-  const levelNames = { '5_green': '🟢 Verde', '4_light_green': '🟡 Verde claro', '3_yellow': '🟡 Amarillo', '2_orange': '🟠 Naranja', '1_red': '🔴 Rojo' };
+  const levelNames = {'5_green':'🟢 Verde','4_light_green':'🟡 Verde claro','3_yellow':'🟡 Amarillo','2_orange':'🟠 Naranja','1_red':'🔴 Rojo'};
+  const level = rep.level_id||'—';
   document.getElementById('metrics-rep').innerHTML = `
     <div class="metric metric-green"><div class="metric-icon">⭐</div><div class="metric-label">Nivel</div><div class="metric-val" style="font-size:16px;">${levelNames[level]||level}</div></div>
-    <div class="metric"><div class="metric-icon">✅</div><div class="metric-label">Ventas completadas</div><div class="metric-val">${rep.transactions?.completed||'—'}</div></div>
+    <div class="metric"><div class="metric-icon">✅</div><div class="metric-label">Completadas</div><div class="metric-val">${rep.transactions?.completed||'—'}</div></div>
     <div class="metric metric-orange"><div class="metric-icon">❌</div><div class="metric-label">Canceladas</div><div class="metric-val">${rep.transactions?.canceled||'—'}</div></div>
-    <div class="metric"><div class="metric-icon">⭐</div><div class="metric-label">Calificación</div><div class="metric-val">${rep.transactions?.ratings?.positive||'—'}</div><div class="metric-sub">positivas</div></div>
+    <div class="metric"><div class="metric-icon">👍</div><div class="metric-label">Positivas</div><div class="metric-val">${rep.transactions?.ratings?.positive||'—'}</div></div>
   `;
   document.getElementById('detalle-rep').innerHTML = `
     <div class="stat-row"><span class="stat-label">Nivel actual</span><span class="stat-val">${levelNames[level]||level}</span></div>
     <div class="stat-row"><span class="stat-label">Ventas completadas</span><span class="stat-val">${rep.transactions?.completed||'—'}</span></div>
-    <div class="stat-row"><span class="stat-label">Ventas canceladas</span><span class="stat-val">${rep.transactions?.canceled||'—'}</span></div>
+    <div class="stat-row"><span class="stat-label">Canceladas</span><span class="stat-val">${rep.transactions?.canceled||'—'}</span></div>
     <div class="stat-row"><span class="stat-label">Calificaciones positivas</span><span class="stat-val">${rep.transactions?.ratings?.positive||'—'}</span></div>
     <div class="stat-row"><span class="stat-label">Calificaciones negativas</span><span class="stat-val">${rep.transactions?.ratings?.negative||'—'}</span></div>
-    <div class="stat-row"><span class="stat-label">Reclamos</span><span class="stat-val">${rep.metrics?.claims?.rate ? (rep.metrics.claims.rate*100).toFixed(1)+'%' : '—'}</span></div>
+    <div class="stat-row"><span class="stat-label">Tasa de reclamos</span><span class="stat-val">${rep.metrics?.claims?.rate?(rep.metrics.claims.rate*100).toFixed(1)+'%':'—'}</span></div>
   `;
 }
 
@@ -672,19 +554,12 @@ async function showApp() {
   await loadAll();
 }
 
-// INIT
 const params = new URLSearchParams(window.location.search);
 const code = params.get('code');
 const token = localStorage.getItem('ml_token');
-if (code) {
-  const app = document.getElementById('app');
-  app.style.display = 'flex';
-  exchangeCode(code);
-} else if (token) {
-  showApp();
-} else {
-  document.getElementById('auth-screen').style.display = 'block';
-}
+if (code) { document.getElementById('app').style.display='flex'; exchangeCode(code); }
+else if (token) { showApp(); }
+else { document.getElementById('auth-screen').style.display='block'; }
 </script>
 </body>
 </html>
