@@ -344,6 +344,7 @@ async function loadAll() {
     const stats = await statsR.json();
     const msgs = await msgsR.json();
     DATA = { ...data, ...stats, messages: msgs.messages||[], token, uid };
+    await checkNuevasOrdenes(data.orders || []);
     renderAll();
     startAutoRefresh();
   } catch(e) { console.error(e); }
@@ -546,7 +547,22 @@ function renderAll() {
     <div class="stat-row"><span class="stat-label">Tasa de reclamos</span><span class="stat-val">${rep.metrics?.claims?.rate?(rep.metrics.claims.rate*100).toFixed(1)+'%':'—'}</span></div>
   `;
 }
+let ordenesConocidas = new Set(JSON.parse(localStorage.getItem('ordenes_conocidas') || '[]'));
 
+async function checkNuevasOrdenes(orders) {
+  const nuevas = orders.filter(o => !ordenesConocidas.has(String(o.id)));
+  for (const orden of nuevas) {
+    ordenesConocidas.add(String(orden.id));
+    try {
+      await fetch('/api/whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: orden })
+      });
+    } catch(e) { console.error('WhatsApp error:', e); }
+  }
+  localStorage.setItem('ordenes_conocidas', JSON.stringify([...ordenesConocidas]));
+}
 async function showApp() {
   document.getElementById('auth-screen').style.display = 'none';
   const app = document.getElementById('app');
