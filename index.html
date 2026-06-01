@@ -3,220 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Mercado Libre</title>
+<title>Dashboard ML - DECOANDHOME</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }
-.container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
-h1 { font-size: 22px; font-weight: 600; margin-bottom: 0.25rem; }
-.subtitle { font-size: 14px; color: #666; margin-bottom: 2rem; }
-.card { background: #fff; border-radius: 12px; border: 1px solid #e5e5e5; padding: 1.5rem; margin-bottom: 1rem; }
-.card h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #444; }
-label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; margin-top: 12px; }
-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-input:focus { border-color: #3483fa; }
-button { width: 100%; margin-top: 1rem; padding: 12px; background: #3483fa; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
-button:hover { background: #2968c8; }
-.error { background: #fff0f0; border: 1px solid #ffcccc; border-radius: 8px; padding: 12px; color: #cc0000; font-size: 14px; margin-top: 1rem; display: none; }
-#dashboard { display: none; }
-.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
-.metric { background: #f8f8f8; border-radius: 10px; padding: 1rem; }
-.metric-label { font-size: 12px; color: #888; margin-bottom: 6px; }
-.metric-val { font-size: 24px; font-weight: 600; color: #222; }
-.metric-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; color: #222; }
+.topbar { background: #3483fa; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.topbar h1 { font-size: 18px; font-weight: 600; }
+.topbar span { font-size: 13px; opacity: 0.85; }
+.refresh-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.refresh-btn:hover { background: rgba(255,255,255,0.3); }
+.nav { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+.nav-btn { padding: 14px 20px; border: none; background: none; cursor: pointer; font-size: 14px; color: #666; border-bottom: 3px solid transparent; white-space: nowrap; }
+.nav-btn.active { color: #3483fa; border-bottom-color: #3483fa; font-weight: 500; }
+.nav-btn:hover { color: #3483fa; }
+.content { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem; }
+.section { display: none; }
+.section.active { display: block; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.metric { background: #fff; border-radius: 12px; padding: 1.25rem; border: 1px solid #e8e8e8; }
+.metric-label { font-size: 12px; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.metric-val { font-size: 26px; font-weight: 700; color: #222; }
+.metric-sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+.metric-green .metric-val { color: #1a7f37; }
+.metric-blue .metric-val { color: #3483fa; }
+.card { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 1.25rem; margin-bottom: 1rem; }
+.card-title { font-size: 15px; font-weight: 600; margin-bottom: 1rem; color: #333; display: flex; align-items: center; gap: 8px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { text-align: left; font-size: 12px; font-weight: 500; color: #888; padding: 6px 0; border-bottom: 1px solid #eee; }
-td { padding: 10px 0; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+th { text-align: left; font-size: 11px; font-weight: 600; color: #999; padding: 6px 8px; border-bottom: 1px solid #f0f0f0; text-transform: uppercase; letter-spacing: 0.04em; }
+td { padding: 11px 8px; border-bottom: 1px solid #f8f8f8; vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+tr:hover td { background: #fafafa; }
+.badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; }
 .badge-green { background: #e6f4ea; color: #1a7f37; }
 .badge-yellow { background: #fff8e1; color: #b07d00; }
+.badge-red { background: #fce8e6; color: #c5221f; }
 .badge-gray { background: #f0f0f0; color: #666; }
-.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-.refresh-btn { width: auto; padding: 8px 16px; font-size: 13px; margin-top: 0; background: #fff; color: #3483fa; border: 1px solid #3483fa; }
-.refresh-btn:hover { background: #f0f4ff; }
-.loading { text-align: center; padding: 2rem; color: #888; font-size: 14px; }
-.section-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin: 1.5rem 0 0.75rem; }
+.badge-blue { background: #e8f0fe; color: #1967d2; }
+.empty { text-align: center; padding: 2rem; color: #bbb; font-size: 14px; }
+.loading-overlay { text-align: center; padding: 3rem; color: #888; }
+.question-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.question-item:last-child { border-bottom: none; }
+.question-text { font-size: 14px; color: #333; margin-bottom: 4px; }
+.question-meta { font-size: 12px; color: #aaa; }
+.visits-bar { height: 6px; background: #e8f0fe; border-radius: 3px; margin-top: 6px; }
+.visits-fill { height: 100%; background: #3483fa; border-radius: 3px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:600px) { .grid2 { grid-template-columns: 1fr; } .topbar { padding: 1rem; } }
+.tag { display: inline-block; background: #f0f4ff; color: #3483fa; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px; }
+#auth-screen { max-width: 420px; margin: 4rem auto; background: #fff; border-radius: 16px; padding: 2rem; border: 1px solid #e8e8e8; }
+#auth-screen h2 { font-size: 20px; font-weight: 600; margin-bottom: 0.5rem; }
+#auth-screen p { font-size: 14px; color: #666; margin-bottom: 1.5rem; }
+label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; margin-top: 14px; }
+input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1); }
+.btn-primary { width: 100%; margin-top: 1.25rem; padding: 13px; background: #3483fa; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.btn-primary:hover { background: #2968c8; }
+.error-msg { background: #fce8e6; border-radius: 8px; padding: 10px 14px; color: #c5221f; font-size: 13px; margin-top: 12px; display: none; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: #666; }
+.stat-val { font-weight: 600; color: #222; }
 </style>
 </head>
 <body>
-<div class="container">
-  <div id="auth-section" style="display:none;">
-    <h1>Dashboard Mercado Libre</h1>
-    <p class="subtitle">Conectá tu cuenta para ver todos tus datos en tiempo real</p>
-    <div class="card">
-      <h2>Ingresá tus credenciales</h2>
-      <label>App ID (Client ID)</label>
-      <input type="text" id="client-id" placeholder="Ej: 4708155927122625" />
-      <label>Secret Key</label>
-      <input type="password" id="client-secret" placeholder="Tu secret key" />
-      <button onclick="startAuth()">Conectar con Mercado Libre</button>
-      <div class="error" id="error-box"></div>
+
+<div id="auth-screen">
+  <h2>🛒 Dashboard ML</h2>
+  <p>Ingresá tus credenciales para acceder a tu cuenta</p>
+  <label>App ID (Client ID)</label>
+  <input type="text" id="client-id" placeholder="Ej: 4708155927122625" />
+  <label>Secret Key</label>
+  <input type="password" id="client-secret" placeholder="Tu secret key" />
+  <button class="btn-primary" onclick="startAuth()">Conectar con Mercado Libre</button>
+  <div class="error-msg" id="error-box"></div>
+</div>
+
+<div id="app" style="display:none;">
+  <div class="topbar">
+    <div>
+      <h1 id="top-name">Dashboard ML</h1>
+      <span id="top-info"></span>
     </div>
+    <button class="refresh-btn" onclick="loadAll()">↻ Actualizar</button>
   </div>
 
-  <div id="dashboard">
-    <div class="top-bar">
-      <div>
-        <h1 id="user-name">Mi cuenta</h1>
-        <p class="subtitle" id="user-info"></p>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showSection('resumen')">📊 Resumen</button>
+    <button class="nav-btn" onclick="showSection('ventas')">💰 Ventas</button>
+    <button class="nav-btn" onclick="showSection('publicaciones')">📦 Publicaciones</button>
+    <button class="nav-btn" onclick="showSection('preguntas')">💬 Preguntas</button>
+    <button class="nav-btn" onclick="showSection('analisis')">📈 Análisis</button>
+  </div>
+
+  <div class="content">
+
+    <!-- RESUMEN -->
+    <div class="section active" id="sec-resumen">
+      <div class="metrics" id="metrics-resumen">
+        <div class="loading-overlay">Cargando...</div>
       </div>
-      <button class="refresh-btn" onclick="loadData()">Actualizar</button>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">📅 Ventas por día (últimas)</div>
+          <div id="ventas-dia"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📦 Top productos vendidos</div>
+          <div id="top-productos"></div>
+        </div>
+      </div>
     </div>
-    <div id="loading-msg" class="loading">Cargando tus datos...</div>
-    <div id="data-section" style="display:none;">
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-label">Ventas recientes</div>
-          <div class="metric-val" id="m-ventas">—</div>
-          <div class="metric-sub">últimas órdenes</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Facturación</div>
-          <div class="metric-val" id="m-fact">—</div>
-          <div class="metric-sub">total ventas recientes</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Ticket promedio</div>
-          <div class="metric-val" id="m-ticket">—</div>
-          <div class="metric-sub">por orden</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Publicaciones</div>
-          <div class="metric-val" id="m-items">—</div>
-          <div class="metric-sub">activas</div>
-        </div>
-      </div>
-      <p class="section-label">últimas ventas</p>
-      <div class="card" style="padding: 0.5rem 1.5rem;">
+
+    <!-- VENTAS -->
+    <div class="section" id="sec-ventas">
+      <div class="card">
+        <div class="card-title">💰 Historial de ventas</div>
         <table>
           <thead><tr><th>Producto</th><th>Monto</th><th>Estado</th><th>Fecha</th></tr></thead>
-          <tbody id="orders-body"></tbody>
-        </table>
-      </div>
-      <p class="section-label">mis publicaciones</p>
-      <div class="card" style="padding: 0.5rem 1.5rem;">
-        <table>
-          <thead><tr><th>Título</th><th>Precio</th><th>Estado</th></tr></thead>
-          <tbody id="items-body"></tbody>
+          <tbody id="tabla-ventas"></tbody>
         </table>
       </div>
     </div>
+
+    <!-- PUBLICACIONES -->
+    <div class="section" id="sec-publicaciones">
+      <div class="card">
+        <div class="card-title">📦 Mis publicaciones activas</div>
+        <table>
+          <thead><tr><th>Título</th><th>Precio</th><th>Stock</th><th>Visitas</th><th>Estado</th></tr></thead>
+          <tbody id="tabla-items"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PREGUNTAS -->
+    <div class="section" id="sec-preguntas">
+      <div class="card">
+        <div class="card-title">💬 Preguntas sin responder</div>
+        <div id="lista-preguntas"><div class="empty">Cargando...</div></div>
+      </div>
+    </div>
+
+    <!-- ANÁLISIS -->
+    <div class="section" id="sec-analisis">
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">📈 Métricas de negocio</div>
+          <div id="metricas-negocio"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">💡 Recomendaciones</div>
+          <div id="recomendaciones"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
 const BASE = window.location.origin;
+let DATA = {};
 
 function showError(msg) {
-  const box = document.getElementById('error-box');
-  box.textContent = msg;
-  box.style.display = 'block';
+  const b = document.getElementById('error-box');
+  b.textContent = msg; b.style.display = 'block';
 }
 
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
-  const csecret = document.getElementById('client-secret').value.trim();
-  if (!cid || !csecret) { showError('Completá los dos campos.'); return; }
+  const cs = document.getElementById('client-secret').value.trim();
+  if (!cid || !cs) { showError('Completá los dos campos.'); return; }
   localStorage.setItem('ml_cid', cid);
-  localStorage.setItem('ml_csecret', csecret);
-  const redirect = BASE + '/';
-  window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${cid}&redirect_uri=${encodeURIComponent(redirect)}`;
+  localStorage.setItem('ml_csecret', cs);
+  window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${cid}&redirect_uri=${encodeURIComponent(BASE+'/')}`;
 }
 
 async function exchangeCode(code) {
   const cid = localStorage.getItem('ml_cid');
-  const csecret = localStorage.getItem('ml_csecret');
-  const redirect = BASE + '/';
-  try {
-    const resp = await fetch('/api/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, client_id: cid, client_secret: csecret, redirect_uri: redirect })
-    });
-    const data = await resp.json();
-    if (data.access_token) {
-      localStorage.setItem('ml_token', data.access_token);
-      localStorage.setItem('ml_uid', data.user_id);
-      window.history.replaceState({}, '', '/');
-      showDashboard();
-    } else {
-      document.getElementById('auth-section').style.display = 'block';
-      showError('Error: ' + (data.message || JSON.stringify(data)));
-    }
-  } catch(e) {
-    document.getElementById('auth-section').style.display = 'block';
-    showError('Error de red: ' + e.message);
+  const cs = localStorage.getItem('ml_csecret');
+  const r = await fetch('/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code, client_id: cid, client_secret: cs, redirect_uri: BASE+'/' })
+  });
+  const d = await r.json();
+  if (d.access_token) {
+    localStorage.setItem('ml_token', d.access_token);
+    localStorage.setItem('ml_uid', d.user_id);
+    window.history.replaceState({}, '', '/');
+    showApp();
+  } else {
+    document.getElementById('auth-screen').style.display = 'block';
+    showError('Error: ' + (d.message || JSON.stringify(d)));
   }
 }
 
-async function showDashboard() {
-  document.getElementById('auth-section').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  await loadData();
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  event.target.classList.add('active');
 }
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString('es-AR'); }
 function fmtDate(d) { return new Date(d).toLocaleDateString('es-AR'); }
-function statusBadge(s) {
-  if (s === 'paid') return '<span class="badge badge-green">pagado</span>';
-  if (s === 'active') return '<span class="badge badge-green">activo</span>';
-  if (s === 'pending') return '<span class="badge badge-yellow">pendiente</span>';
-  return `<span class="badge badge-gray">${s}</span>`;
+function badge(s) {
+  const map = { paid: ['pagado','green'], active: ['activo','green'], pending: ['pendiente','yellow'], closed: ['cerrado','gray'], paused: ['pausado','yellow'], cancelled: ['cancelado','red'] };
+  const [label, color] = map[s] || [s, 'gray'];
+  return `<span class="badge badge-${color}">${label}</span>`;
 }
 
-async function loadData() {
-  document.getElementById('loading-msg').style.display = 'block';
-  document.getElementById('data-section').style.display = 'none';
+async function loadAll() {
   const token = localStorage.getItem('ml_token');
   const uid = localStorage.getItem('ml_uid');
   if (!token) return;
-  try {
-    const resp = await fetch(`/api/data?token=${token}&uid=${uid}`);
-    const d = await resp.json();
-    if (d.error) { document.getElementById('loading-msg').textContent = 'Error: ' + d.error; return; }
 
-    document.getElementById('user-name').textContent = (d.user.first_name || '') + ' ' + (d.user.last_name || '');
-    document.getElementById('user-info').textContent = '@' + (d.user.nickname || '') + ' · ' + (d.user.email || '');
+  const [dataR, statsR] = await Promise.all([
+    fetch(`/api/data?token=${token}&uid=${uid}`),
+    fetch(`/api/stats?token=${token}&uid=${uid}`)
+  ]);
+  const data = await dataR.json();
+  const stats = await statsR.json();
 
-    const orders = d.orders || [];
-    const totalFact = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
-    const avg = orders.length ? totalFact / orders.length : 0;
-    document.getElementById('m-ventas').textContent = orders.length;
-    document.getElementById('m-fact').textContent = fmt(totalFact);
-    document.getElementById('m-ticket').textContent = fmt(avg);
-    document.getElementById('m-items').textContent = (d.items || []).length;
+  DATA = { ...data, ...stats };
 
-    document.getElementById('orders-body').innerHTML = orders.slice(0,15).map(o => `<tr>
-      <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title || 'Orden #'+o.id}</td>
-      <td>${fmt(o.total_amount||0)}</td>
-      <td>${statusBadge(o.status)}</td>
-      <td style="color:#888;">${fmtDate(o.date_created)}</td>
-    </tr>`).join('') || '<tr><td colspan="4" style="color:#aaa;padding:1rem 0;">Sin órdenes</td></tr>';
+  // Top bar
+  document.getElementById('top-name').textContent = (data.user?.first_name || '') + ' ' + (data.user?.last_name || '');
+  document.getElementById('top-info').textContent = '@' + (data.user?.nickname || '') + ' · ' + (data.user?.email || '');
 
-    document.getElementById('items-body').innerHTML = (d.items||[]).slice(0,15).map(i => `<tr>
-      <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
-      <td>${fmt(i.price||0)}</td>
-      <td>${statusBadge(i.status)}</td>
-    </tr>`).join('') || '<tr><td colspan="3" style="color:#aaa;">Sin publicaciones</td></tr>';
+  const orders = data.orders || [];
+  const items = stats.items || data.items || [];
+  const questions = stats.questions || [];
+  const totalFact = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
+  const avgTicket = orders.length ? totalFact / orders.length : 0;
+  const maxVisits = Math.max(...items.map(i => i.visits || 0), 1);
 
-    document.getElementById('loading-msg').style.display = 'none';
-    document.getElementById('data-section').style.display = 'block';
-  } catch(e) {
-    document.getElementById('loading-msg').textContent = 'Error: ' + e.message;
-  }
+  // MÉTRICAS RESUMEN
+  document.getElementById('metrics-resumen').innerHTML = `
+    <div class="metric metric-blue"><div class="metric-label">Ventas recientes</div><div class="metric-val">${orders.length}</div><div class="metric-sub">últimas órdenes</div></div>
+    <div class="metric metric-green"><div class="metric-label">Facturación</div><div class="metric-val">${fmt(totalFact)}</div><div class="metric-sub">total acumulado</div></div>
+    <div class="metric"><div class="metric-label">Ticket promedio</div><div class="metric-val">${fmt(avgTicket)}</div><div class="metric-sub">por orden</div></div>
+    <div class="metric"><div class="metric-label">Publicaciones</div><div class="metric-val">${items.length}</div><div class="metric-sub">activas</div></div>
+    <div class="metric ${questions.length > 0 ? 'metric-blue' : ''}"><div class="metric-label">Preguntas</div><div class="metric-val">${questions.length}</div><div class="metric-sub">sin responder</div></div>
+    <div class="metric"><div class="metric-label">Visitas totales</div><div class="metric-val">${items.reduce((s,i) => s+(i.visits||0), 0).toLocaleString('es-AR')}</div><div class="metric-sub">últimos 30 días</div></div>
+  `;
+
+  // VENTAS POR DÍA
+  const byDay = {};
+  orders.forEach(o => {
+    const d = fmtDate(o.date_created);
+    byDay[d] = (byDay[d] || 0) + 1;
+  });
+  const dayEntries = Object.entries(byDay).slice(0, 10);
+  document.getElementById('ventas-dia').innerHTML = dayEntries.length ? dayEntries.map(([d, n]) => `
+    <div class="stat-row"><span class="stat-label">${d}</span><span class="stat-val">${n} venta${n>1?'s':''}</span></div>
+  `).join('') : '<div class="empty">Sin datos</div>';
+
+  // TOP PRODUCTOS
+  const prodCount = {};
+  orders.forEach(o => {
+    const t = o.order_items?.[0]?.item?.title || 'Otro';
+    const short = t.substring(0, 35);
+    prodCount[short] = (prodCount[short] || 0) + 1;
+  });
+  const topProds = Object.entries(prodCount).sort((a,b) => b[1]-a[1]).slice(0, 6);
+  document.getElementById('top-productos').innerHTML = topProds.map(([t, n]) => `
+    <div class="stat-row"><span class="stat-label">${t}...</span><span class="badge badge-blue">${n}</span></div>
+  `).join('') || '<div class="empty">Sin datos</div>';
+
+  // TABLA VENTAS
+  document.getElementById('tabla-ventas').innerHTML = orders.map(o => `<tr>
+    <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title || 'Orden #'+o.id}</td>
+    <td>${fmt(o.total_amount||0)}</td>
+    <td>${badge(o.status)}</td>
+    <td style="color:#888;">${fmtDate(o.date_created)}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">Sin ventas</td></tr>';
+
+  // TABLA PUBLICACIONES
+  document.getElementById('tabla-items').innerHTML = items.map(i => `<tr>
+    <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
+    <td>${fmt(i.price||0)}</td>
+    <td>${i.available_quantity ?? '—'}</td>
+    <td>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span>${(i.visits||0).toLocaleString('es-AR')}</span>
+        <div class="visits-bar" style="width:60px;"><div class="visits-fill" style="width:${Math.round(((i.visits||0)/maxVisits)*100)}%"></div></div>
+      </div>
+    </td>
+    <td>${badge(i.status)}</td>
+  </tr>`).join('') || '<tr><td colspan="5" class="empty">Sin publicaciones</td></tr>';
+
+  // PREGUNTAS
+  document.getElementById('lista-preguntas').innerHTML = questions.length ? questions.map(q => `
+    <div class="question-item">
+      <div class="question-text">${q.text}</div>
+      <div class="question-meta">${fmtDate(q.date_created)} · Item #${q.item_id}</div>
+    </div>
+  `).join('') : '<div class="empty">✅ No tenés preguntas sin responder</div>';
+
+  // ANÁLISIS
+  const conversion = items.length ? ((orders.length / Math.max(items.reduce((s,i)=>s+(i.visits||0),0),1))*100).toFixed(2) : 0;
+  const ventasDia = orders.length / 30;
+  document.getElementById('metricas-negocio').innerHTML = `
+    <div class="stat-row"><span class="stat-label">Ventas por día (prom.)</span><span class="stat-val">${ventasDia.toFixed(1)}</span></div>
+    <div class="stat-row"><span class="stat-label">Facturación por día</span><span class="stat-val">${fmt(totalFact/30)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ticket promedio</span><span class="stat-val">${fmt(avgTicket)}</span></div>
+    <div class="stat-row"><span class="stat-label">Tasa de conversión</span><span class="stat-val">${conversion}%</span></div>
+    <div class="stat-row"><span class="stat-label">Publicaciones activas</span><span class="stat-val">${items.length}</span></div>
+    <div class="stat-row"><span class="stat-label">Preguntas pendientes</span><span class="stat-val">${questions.length}</span></div>
+  `;
+
+  const recoms = [];
+  if (questions.length > 0) recoms.push(`💬 Tenés <strong>${questions.length} pregunta${questions.length>1?'s':''}</strong> sin responder. Respondelas rápido para mejorar tu reputación.`);
+  if (ventasDia < 1) recoms.push(`📉 Estás vendiendo menos de 1 unidad por día. Aumentar la publicidad podría ayudar.`);
+  if (ventasDia >= 2) recoms.push(`✅ Estás vendiendo ${ventasDia.toFixed(1)} unidades por día, un buen ritmo.`);
+  if (parseFloat(conversion) < 1) recoms.push(`👁 Tu conversión es baja (${conversion}%). Mejorá las fotos y títulos de tus publicaciones.`);
+  recoms.push(`💡 Con $72.000/día de publicidad y tu ticket de ${fmt(avgTicket)}, necesitás al menos <strong>${Math.ceil(72000/((avgTicket*0.15)||1))} ventas/día</strong> para cubrir la inversión.`);
+
+  document.getElementById('recomendaciones').innerHTML = recoms.map(r => `<div class="stat-row"><span>${r}</span></div>`).join('');
 }
 
+async function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  await loadAll();
+}
+
+// Init
 const params = new URLSearchParams(window.location.search);
 const code = params.get('code');
 const token = localStorage.getItem('ml_token');
 if (code) {
-  document.getElementById('dashboard').style.display = 'block';
   exchangeCode(code);
 } else if (token) {
-  showDashboard();
+  showApp();
 } else {
-  document.getElementById('auth-section').style.display = 'block';
+  document.getElementById('auth-screen').style.display = 'block';
 }
 </script>
 </body>
