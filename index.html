@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Dashboard ML</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+h1 { font-size: 22px; font-weight: 600; margin-bottom: 0.25rem; }
+.subtitle { font-size: 14px; color: #666; margin-bottom: 2rem; }
+.card { background: #fff; border-radius: 12px; border: 1px solid #e5e5e5; padding: 1.5rem; margin-bottom: 1rem; }
+.card h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #444; }
+label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; margin-top: 12px; }
+input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+input:focus { border-color: #3483fa; }
+button { width: 100%; margin-top: 1rem; padding: 12px; background: #3483fa; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
+button:hover { background: #2968c8; }
+.redirect-box { background: #f0f4ff; border: 1px solid #c0d0f0; border-radius: 8px; padding: 10px 14px; font-family: monospace; font-size: 13px; word-break: break-all; margin-bottom: 0.5rem; }
+.copy-btn { width: auto; padding: 6px 14px; font-size: 13px; margin-top: 0.5rem; background: #444; }
+.copy-btn:hover { background: #222; }
+.error { background: #fff0f0; border: 1px solid #ffcccc; border-radius: 8px; padding: 12px; color: #cc0000; font-size: 14px; margin-top: 1rem; display: none; }
+#dashboard { display: none; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.metric { background: #f8f8f8; border-radius: 10px; padding: 1rem; }
+.metric-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+.metric-val { font-size: 24px; font-weight: 600; color: #222; }
+.metric-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-size: 12px; font-weight: 500; color: #888; padding: 6px 0; border-bottom: 1px solid #eee; }
+td { padding: 10px 0; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+.badge-green { background: #e6f4ea; color: #1a7f37; }
+.badge-yellow { background: #fff8e1; color: #b07d00; }
+.badge-gray { background: #f0f0f0; color: #666; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.refresh-btn { width: auto; padding: 8px 16px; font-size: 13px; margin-top: 0; background: #fff; color: #3483fa; border: 1px solid #3483fa; }
+.refresh-btn:hover { background: #f0f4ff; }
+.loading { text-align: center; padding: 2rem; color: #888; font-size: 14px; }
+.section-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin: 1.5rem 0 0.75rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="auth-section">
+    <h1>Dashboard Mercado Libre</h1>
+    <p class="subtitle">Conectá tu cuenta para ver todos tus datos en tiempo real</p>
+    <div class="card">
+      <h2>Paso 1 — Copiá tu Redirect URI</h2>
+      <p style="font-size:13px; color:#666; margin-bottom:10px;">Pegá esta URL exacta en el campo "Redirect URI" de tu app en developers.mercadolibre.com.ar</p>
+      <div class="redirect-box" id="redirect-display">cargando...</div>
+      <button class="copy-btn" onclick="copyURI()">Copiar URL</button>
+    </div>
+    <div class="card">
+      <h2>Paso 2 — Ingresá tus credenciales</h2>
+      <label>App ID (Client ID)</label>
+      <input type="text" id="client-id" placeholder="Ej: 4708155927122625" />
+      <label>Secret Key</label>
+      <input type="password" id="client-secret" placeholder="Tu secret key" />
+      <button onclick="startAuth()">Conectar con Mercado Libre</button>
+      <div class="error" id="error-box"></div>
+    </div>
+  </div>
+  <div id="dashboard">
+    <div class="top-bar">
+      <div>
+        <h1 id="user-name">Mi cuenta</h1>
+        <p class="subtitle" id="user-nickname"></p>
+      </div>
+      <button class="refresh-btn" onclick="loadData()">Actualizar datos</button>
+    </div>
+    <div id="loading-msg" class="loading">Cargando tus datos...</div>
+    <div id="data-section" style="display:none;">
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Ventas recientes</div>
+          <div class="metric-val" id="m-ventas">—</div>
+          <div class="metric-sub">últimas órdenes</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Facturación</div>
+          <div class="metric-val" id="m-fact">—</div>
+          <div class="metric-sub">total ventas recientes</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Ticket promedio</div>
+          <div class="metric-val" id="m-ticket">—</div>
+          <div class="metric-sub">por orden</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Publicaciones</div>
+          <div class="metric-val" id="m-items">—</div>
+          <div class="metric-sub">activas</div>
+        </div>
+      </div>
+      <p class="section-label">últimas ventas</p>
+      <div class="card" style="padding: 0.5rem 1.5rem;">
+        <table>
+          <thead><tr><th>Producto</th><th>Monto</th><th>Estado</th><th>Fecha</th></tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+      </div>
+      <p class="section-label">mis publicaciones</p>
+      <div class="card" style="padding: 0.5rem 1.5rem;">
+        <table>
+          <thead><tr><th>Título</th><th>Precio</th><th>Estado</th></tr></thead>
+          <tbody id="items-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const REDIRECT_URI = window.location.origin + window.location.pathname;
+document.getElementById('redirect-display').textContent = REDIRECT_URI;
+
+function copyURI() {
+  navigator.clipboard.writeText(REDIRECT_URI).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => btn.textContent = 'Copiar URL', 2000);
+  });
+}
+
+function showError(msg) {
+  const box = document.getElementById('error-box');
+  box.textContent = msg;
+  box.style.display = 'block';
+}
+
+function startAuth() {
+  const cid = document.getElementById('client-id').value.trim();
+  const csecret = document.getElementById('client-secret').value.trim();
+  if (!cid || !csecret) { showError('Completá los dos campos antes de continuar.'); return; }
+  localStorage.setItem('ml_cid', cid);
+  localStorage.setItem('ml_csecret', csecret);
+  window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${cid}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+}
+
+async function exchangeCode(code) {
+  const cid = localStorage.getItem('ml_cid');
+  const csecret = localStorage.getItem('ml_csecret');
+  if (!cid || !csecret) { showError('Faltan credenciales, ingresalas de nuevo.'); document.getElementById('auth-section').style.display='block'; return; }
+  try {
+    const resp = await fetch('https://api.mercadolibre.com/oauth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'authorization_code', client_id: cid, client_secret: csecret, code, redirect_uri: REDIRECT_URI })
+    });
+    const data = await resp.json();
+    if (data.access_token) {
+      localStorage.setItem('ml_token', data.access_token);
+      localStorage.setItem('ml_uid', data.user_id);
+      window.history.replaceState({}, '', window.location.pathname);
+      showDashboard();
+    } else {
+      document.getElementById('auth-section').style.display='block';
+      showError('Error de autorización: ' + (data.message || JSON.stringify(data)));
+    }
+  } catch(e) {
+    document.getElementById('auth-section').style.display='block';
+    showError('Error de red: ' + e.message);
+  }
+}
+
+async function showDashboard() {
+  document.getElementById('auth-section').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  await loadData();
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString('es-AR'); }
+function fmtDate(d) { return new Date(d).toLocaleDateString('es-AR'); }
+function statusBadge(s) {
+  if (s === 'paid') return '<span class="badge badge-green">pagado</span>';
+  if (s === 'active') return '<span class="badge badge-green">activo</span>';
+  if (s === 'pending') return '<span class="badge badge-yellow">pendiente</span>';
+  return `<span class="badge badge-gray">${s}</span>`;
+}
+
+async function loadData() {
+  document.getElementById('loading-msg').style.display = 'block';
+  document.getElementById('data-section').style.display = 'none';
+  const token = localStorage.getItem('ml_token');
+  const uid = localStorage.getItem('ml_uid');
+  if (!token) return;
+  try {
+    const headers = { Authorization: 'Bearer ' + token };
+    const [userR, ordersR, itemsR] = await Promise.all([
+      fetch('https://api.mercadolibre.com/users/me', { headers }),
+      fetch(`https://api.mercadolibre.com/orders/search?seller=${uid}&sort=date_desc&limit=20`, { headers }),
+      fetch(`https://api.mercadolibre.com/users/${uid}/items/search?limit=20`, { headers })
+    ]);
+    const user = await userR.json();
+    const orders = await ordersR.json();
+    const itemsSearch = await itemsR.json();
+    document.getElementById('user-name').textContent = (user.first_name || '') + ' ' + (user.last_name || '');
+    document.getElementById('user-nickname').textContent = '@' + (user.nickname || '') + ' · ' + (user.email || '');
+    const orderList = orders.results || [];
+    const totalFact = orderList.reduce((s, o) => s + (o.total_amount || 0), 0);
+    const avgTicket = orderList.length ? totalFact / orderList.length : 0;
+    document.getElementById('m-ventas').textContent = orderList.length;
+    document.getElementById('m-fact').textContent = fmt(totalFact);
+    document.getElementById('m-ticket').textContent = fmt(avgTicket);
+    const tbody = document.getElementById('orders-body');
+    tbody.innerHTML = orderList.slice(0,15).map(o => {
+      const title = o.order_items?.[0]?.item?.title || 'Orden #' + o.id;
+      return `<tr>
+        <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${title}</td>
+        <td>${fmt(o.total_amount || 0)}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="color:#888;">${fmtDate(o.date_created)}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="4" style="color:#aaa; padding:1rem 0;">Sin órdenes recientes</td></tr>';
+    const itemIds = itemsSearch.results || [];
+    document.getElementById('m-items').textContent = itemIds.length;
+    if (itemIds.length > 0) {
+      const itemsResp = await fetch(`https://api.mercadolibre.com/items?ids=${itemIds.slice(0,15).join(',')}`, { headers });
+      const itemsData = await itemsResp.json();
+      const ibody = document.getElementById('items-body');
+      ibody.innerHTML = itemsData.map(r => r.body || r).filter(i => i && i.id).map(item => `
+        <tr>
+          <td style="max-width:320px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.title || ''}</td>
+          <td>${fmt(item.price || 0)}</td>
+          <td>${statusBadge(item.status)}</td>
+        </tr>`).join('') || '<tr><td colspan="3" style="color:#aaa;">Sin publicaciones</td></tr>';
+    }
+    document.getElementById('loading-msg').style.display = 'none';
+    document.getElementById('data-section').style.display = 'block';
+  } catch(e) {
+    document.getElementById('loading-msg').textContent = 'Error al cargar: ' + e.message;
+  }
+}
+
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const token = localStorage.getItem('ml_token');
+if (code) {
+  exchangeCode(code);
+} else if (token) {
+  showDashboard();
+} else {
+  document.getElementById('auth-section').style.display = 'block';
+}
+</script>
+</body>
+</html>
