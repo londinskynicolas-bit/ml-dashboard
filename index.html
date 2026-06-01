@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Dashboard ML</title>
+<title>Dashboard Mercado Libre</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }
@@ -17,9 +17,6 @@ input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 
 input:focus { border-color: #3483fa; }
 button { width: 100%; margin-top: 1rem; padding: 12px; background: #3483fa; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
 button:hover { background: #2968c8; }
-.redirect-box { background: #f0f4ff; border: 1px solid #c0d0f0; border-radius: 8px; padding: 10px 14px; font-family: monospace; font-size: 13px; word-break: break-all; margin-bottom: 0.5rem; }
-.copy-btn { width: auto; padding: 6px 14px; font-size: 13px; margin-top: 0.5rem; background: #444; }
-.copy-btn:hover { background: #222; }
 .error { background: #fff0f0; border: 1px solid #ffcccc; border-radius: 8px; padding: 12px; color: #cc0000; font-size: 14px; margin-top: 1rem; display: none; }
 #dashboard { display: none; }
 .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
@@ -44,17 +41,11 @@ tr:last-child td { border-bottom: none; }
 </head>
 <body>
 <div class="container">
-  <div id="auth-section">
+  <div id="auth-section" style="display:none;">
     <h1>Dashboard Mercado Libre</h1>
     <p class="subtitle">Conectá tu cuenta para ver todos tus datos en tiempo real</p>
     <div class="card">
-      <h2>Paso 1 — Copiá tu Redirect URI</h2>
-      <p style="font-size:13px; color:#666; margin-bottom:10px;">Pegá esta URL exacta en el campo "Redirect URI" de tu app en developers.mercadolibre.com.ar</p>
-      <div class="redirect-box" id="redirect-display">cargando...</div>
-      <button class="copy-btn" onclick="copyURI()">Copiar URL</button>
-    </div>
-    <div class="card">
-      <h2>Paso 2 — Ingresá tus credenciales</h2>
+      <h2>Ingresá tus credenciales</h2>
       <label>App ID (Client ID)</label>
       <input type="text" id="client-id" placeholder="Ej: 4708155927122625" />
       <label>Secret Key</label>
@@ -63,13 +54,14 @@ tr:last-child td { border-bottom: none; }
       <div class="error" id="error-box"></div>
     </div>
   </div>
+
   <div id="dashboard">
     <div class="top-bar">
       <div>
         <h1 id="user-name">Mi cuenta</h1>
-        <p class="subtitle" id="user-nickname"></p>
+        <p class="subtitle" id="user-info"></p>
       </div>
-      <button class="refresh-btn" onclick="loadData()">Actualizar datos</button>
+      <button class="refresh-btn" onclick="loadData()">Actualizar</button>
     </div>
     <div id="loading-msg" class="loading">Cargando tus datos...</div>
     <div id="data-section" style="display:none;">
@@ -112,17 +104,9 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
 </div>
-<script>
-const REDIRECT_URI = window.location.origin + window.location.pathname;
-document.getElementById('redirect-display').textContent = REDIRECT_URI;
 
-function copyURI() {
-  navigator.clipboard.writeText(REDIRECT_URI).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = '✓ Copiado!';
-    setTimeout(() => btn.textContent = 'Copiar URL', 2000);
-  });
-}
+<script>
+const BASE = window.location.origin;
 
 function showError(msg) {
   const box = document.getElementById('error-box');
@@ -133,34 +117,35 @@ function showError(msg) {
 function startAuth() {
   const cid = document.getElementById('client-id').value.trim();
   const csecret = document.getElementById('client-secret').value.trim();
-  if (!cid || !csecret) { showError('Completá los dos campos antes de continuar.'); return; }
+  if (!cid || !csecret) { showError('Completá los dos campos.'); return; }
   localStorage.setItem('ml_cid', cid);
   localStorage.setItem('ml_csecret', csecret);
-  window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${cid}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+  const redirect = BASE + '/';
+  window.location.href = `https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=${cid}&redirect_uri=${encodeURIComponent(redirect)}`;
 }
 
 async function exchangeCode(code) {
   const cid = localStorage.getItem('ml_cid');
   const csecret = localStorage.getItem('ml_csecret');
-  if (!cid || !csecret) { showError('Faltan credenciales, ingresalas de nuevo.'); document.getElementById('auth-section').style.display='block'; return; }
+  const redirect = BASE + '/';
   try {
-    const resp = await fetch('https://api.mercadolibre.com/oauth/token', {
+    const resp = await fetch('/api/token', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ grant_type: 'authorization_code', client_id: cid, client_secret: csecret, code, redirect_uri: REDIRECT_URI })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, client_id: cid, client_secret: csecret, redirect_uri: redirect })
     });
     const data = await resp.json();
     if (data.access_token) {
       localStorage.setItem('ml_token', data.access_token);
       localStorage.setItem('ml_uid', data.user_id);
-      window.history.replaceState({}, '', window.location.pathname);
+      window.history.replaceState({}, '', '/');
       showDashboard();
     } else {
-      document.getElementById('auth-section').style.display='block';
-      showError('Error de autorización: ' + (data.message || JSON.stringify(data)));
+      document.getElementById('auth-section').style.display = 'block';
+      showError('Error: ' + (data.message || JSON.stringify(data)));
     }
   } catch(e) {
-    document.getElementById('auth-section').style.display='block';
+    document.getElementById('auth-section').style.display = 'block';
     showError('Error de red: ' + e.message);
   }
 }
@@ -187,50 +172,38 @@ async function loadData() {
   const uid = localStorage.getItem('ml_uid');
   if (!token) return;
   try {
-    const headers = { Authorization: 'Bearer ' + token };
-    const [userR, ordersR, itemsR] = await Promise.all([
-      fetch('https://api.mercadolibre.com/users/me', { headers }),
-      fetch(`https://api.mercadolibre.com/orders/search?seller=${uid}&sort=date_desc&limit=20`, { headers }),
-      fetch(`https://api.mercadolibre.com/users/${uid}/items/search?limit=20`, { headers })
-    ]);
-    const user = await userR.json();
-    const orders = await ordersR.json();
-    const itemsSearch = await itemsR.json();
-    document.getElementById('user-name').textContent = (user.first_name || '') + ' ' + (user.last_name || '');
-    document.getElementById('user-nickname').textContent = '@' + (user.nickname || '') + ' · ' + (user.email || '');
-    const orderList = orders.results || [];
-    const totalFact = orderList.reduce((s, o) => s + (o.total_amount || 0), 0);
-    const avgTicket = orderList.length ? totalFact / orderList.length : 0;
-    document.getElementById('m-ventas').textContent = orderList.length;
+    const resp = await fetch(`/api/data?token=${token}&uid=${uid}`);
+    const d = await resp.json();
+    if (d.error) { document.getElementById('loading-msg').textContent = 'Error: ' + d.error; return; }
+
+    document.getElementById('user-name').textContent = (d.user.first_name || '') + ' ' + (d.user.last_name || '');
+    document.getElementById('user-info').textContent = '@' + (d.user.nickname || '') + ' · ' + (d.user.email || '');
+
+    const orders = d.orders || [];
+    const totalFact = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
+    const avg = orders.length ? totalFact / orders.length : 0;
+    document.getElementById('m-ventas').textContent = orders.length;
     document.getElementById('m-fact').textContent = fmt(totalFact);
-    document.getElementById('m-ticket').textContent = fmt(avgTicket);
-    const tbody = document.getElementById('orders-body');
-    tbody.innerHTML = orderList.slice(0,15).map(o => {
-      const title = o.order_items?.[0]?.item?.title || 'Orden #' + o.id;
-      return `<tr>
-        <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${title}</td>
-        <td>${fmt(o.total_amount || 0)}</td>
-        <td>${statusBadge(o.status)}</td>
-        <td style="color:#888;">${fmtDate(o.date_created)}</td>
-      </tr>`;
-    }).join('') || '<tr><td colspan="4" style="color:#aaa; padding:1rem 0;">Sin órdenes recientes</td></tr>';
-    const itemIds = itemsSearch.results || [];
-    document.getElementById('m-items').textContent = itemIds.length;
-    if (itemIds.length > 0) {
-      const itemsResp = await fetch(`https://api.mercadolibre.com/items?ids=${itemIds.slice(0,15).join(',')}`, { headers });
-      const itemsData = await itemsResp.json();
-      const ibody = document.getElementById('items-body');
-      ibody.innerHTML = itemsData.map(r => r.body || r).filter(i => i && i.id).map(item => `
-        <tr>
-          <td style="max-width:320px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.title || ''}</td>
-          <td>${fmt(item.price || 0)}</td>
-          <td>${statusBadge(item.status)}</td>
-        </tr>`).join('') || '<tr><td colspan="3" style="color:#aaa;">Sin publicaciones</td></tr>';
-    }
+    document.getElementById('m-ticket').textContent = fmt(avg);
+    document.getElementById('m-items').textContent = (d.items || []).length;
+
+    document.getElementById('orders-body').innerHTML = orders.slice(0,15).map(o => `<tr>
+      <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title || 'Orden #'+o.id}</td>
+      <td>${fmt(o.total_amount||0)}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td style="color:#888;">${fmtDate(o.date_created)}</td>
+    </tr>`).join('') || '<tr><td colspan="4" style="color:#aaa;padding:1rem 0;">Sin órdenes</td></tr>';
+
+    document.getElementById('items-body').innerHTML = (d.items||[]).slice(0,15).map(i => `<tr>
+      <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
+      <td>${fmt(i.price||0)}</td>
+      <td>${statusBadge(i.status)}</td>
+    </tr>`).join('') || '<tr><td colspan="3" style="color:#aaa;">Sin publicaciones</td></tr>';
+
     document.getElementById('loading-msg').style.display = 'none';
     document.getElementById('data-section').style.display = 'block';
   } catch(e) {
-    document.getElementById('loading-msg').textContent = 'Error al cargar: ' + e.message;
+    document.getElementById('loading-msg').textContent = 'Error: ' + e.message;
   }
 }
 
@@ -238,6 +211,7 @@ const params = new URLSearchParams(window.location.search);
 const code = params.get('code');
 const token = localStorage.getItem('ml_token');
 if (code) {
+  document.getElementById('dashboard').style.display = 'block';
   exchangeCode(code);
 } else if (token) {
   showDashboard();
