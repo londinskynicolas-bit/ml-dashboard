@@ -47,6 +47,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 .card-title { font-size: 15px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; font-size: 11px; font-weight: 600; color: #aaa; padding: 8px 10px; border-bottom: 2px solid #f5f5f5; text-transform: uppercase; letter-spacing: 0.04em; }
 td { padding: 12px 10px; border-bottom: 1px solid #f8f8f8; vertical-align: middle; }
@@ -87,20 +88,24 @@ tr:hover td { background: #fafbff; }
 .question-text { font-size: 14px; color: #333; margin-bottom: 5px; line-height: 1.4; }
 .question-meta { font-size: 12px; color: #aaa; }
 .question-product { font-size: 12px; color: #3483fa; margin-top: 3px; }
-/* MODAL DETALLE VENTA */
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
 .modal-overlay.active { display: flex; }
-.modal { background: #fff; border-radius: 20px; padding: 2rem; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; }
+.modal { background: #fff; border-radius: 20px; padding: 2rem; max-width: 580px; width: 90%; max-height: 88vh; overflow-y: auto; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .modal-title { font-size: 18px; font-weight: 700; }
 .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #aaa; }
 .modal-close:hover { color: #333; }
-.detail-section { margin-bottom: 1.25rem; }
-.detail-section-title { font-size: 12px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-.detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+.detail-section { margin-bottom: 1.25rem; background: #f8f9fa; border-radius: 12px; padding: 1rem; }
+.detail-section-title { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #eee; font-size: 14px; }
 .detail-row:last-child { border-bottom: none; }
 .detail-label { color: #666; }
 .detail-val { font-weight: 500; color: #222; text-align: right; max-width: 60%; }
+.detail-val-green { font-weight: 700; color: #00b894; }
+.detail-val-red { font-weight: 500; color: #e74c3c; }
+.detail-neto { background: linear-gradient(135deg, #e6f9f0, #d4f5e9); border-radius: 10px; padding: 1rem; margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+.detail-neto-label { font-size: 14px; font-weight: 600; color: #005c3a; }
+.detail-neto-val { font-size: 22px; font-weight: 800; color: #00b894; }
 .btn-ver { background: #f0f5ff; color: #3483fa; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
 .btn-ver:hover { background: #3483fa; color: #fff; }
 #auth-screen { max-width: 400px; margin: 4rem auto; background: #fff; border-radius: 20px; padding: 2.5rem; border: 1px solid #eee; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
@@ -113,15 +118,21 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 .btn-primary { width: 100%; margin-top: 1.5rem; padding: 13px; background: linear-gradient(135deg, #3483fa, #1a5fd4); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
 .btn-primary:hover { opacity: 0.9; }
 .error-msg { background: #ffeaea; border-radius: 8px; padding: 10px 14px; color: #e74c3c; font-size: 13px; margin-top: 12px; display: none; }
-.tab-btns { display: flex; gap: 8px; margin-bottom: 1rem; }
+.tab-btns { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
 .tab-btn { padding: 7px 16px; border-radius: 8px; border: 1.5px solid #e0e0e0; background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; color: #666; }
 .tab-btn.active { background: #3483fa; color: #fff; border-color: #3483fa; }
-@media(max-width:768px) { .sidebar { display: none; } .grid2 { grid-template-columns: 1fr; } }
+.metrica-publi { background: #fff; border-radius: 12px; border: 1px solid #eee; padding: 1rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.metrica-publi-info { flex: 1; }
+.metrica-publi-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+.metrica-publi-stats { display: flex; gap: 16px; font-size: 12px; color: #888; }
+.metrica-publi-stat { display: flex; flex-direction: column; align-items: center; }
+.metrica-publi-stat-val { font-size: 18px; font-weight: 700; color: #3483fa; }
+.metrica-publi-stat-label { font-size: 11px; color: #aaa; }
+@media(max-width:768px) { .sidebar { display: none; } .grid2, .grid3 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-logo">🛒</div>
   <h2>Dashboard ML</h2>
@@ -134,7 +145,6 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
   <div class="error-msg" id="error-box"></div>
 </div>
 
-<!-- MODAL DETALLE VENTA -->
 <div class="modal-overlay" id="modal-venta">
   <div class="modal">
     <div class="modal-header">
@@ -145,7 +155,6 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none; flex-direction:column; min-height:100vh;">
   <div class="topbar">
     <div class="topbar-left">
@@ -169,6 +178,7 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
       <div class="nav-item" onclick="showSection('ventas',this)"><span class="nav-emoji">🛒</span> Ventas <span class="nav-badge" id="badge-ventas-nuevas" style="display:none">0</span></div>
       <div class="nav-item" onclick="showSection('envios',this)"><span class="nav-emoji">✈️</span> Envíos</div>
       <div class="nav-item" onclick="showSection('publicaciones',this)"><span class="nav-emoji">📦</span> Publicaciones</div>
+      <div class="nav-item" onclick="showSection('metricas',this)"><span class="nav-emoji">📉</span> Métricas</div>
       <div class="sidebar-section">Comunicación</div>
       <div class="nav-item" onclick="showSection('mensajes',this)"><span class="nav-emoji">✉️</span> Mensajes <span class="nav-badge" id="badge-mensajes" style="display:none">0</span></div>
       <div class="nav-item" onclick="showSection('preguntas',this)"><span class="nav-emoji">💬</span> Preguntas <span class="nav-badge" id="badge-preguntas" style="display:none">0</span></div>
@@ -196,23 +206,23 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 
       <!-- VENTAS -->
       <div class="section" id="sec-ventas">
-        <div class="section-header"><h2>🛒 Ventas</h2><p>Historial completo — hacé clic en una venta para ver todos los datos</p></div>
+        <div class="section-header"><h2>🛒 Ventas</h2><p>Hacé clic en "Ver detalle" para ver todos los datos del cliente y el ingreso neto</p></div>
         <div class="metrics" id="metrics-ventas"><div class="loading">Cargando...</div></div>
         <div class="tab-btns">
-          <button class="tab-btn active" onclick="filtrarVentas('todas', this)">Todas</button>
-          <button class="tab-btn" onclick="filtrarVentas('en_curso', this)">🔄 En curso</button>
-          <button class="tab-btn" onclick="filtrarVentas('entregadas', this)">✅ Entregadas</button>
-          <button class="tab-btn" onclick="filtrarVentas('canceladas', this)">❌ Canceladas</button>
+          <button class="tab-btn active" onclick="filtrarVentas('todas',this)">Todas</button>
+          <button class="tab-btn" onclick="filtrarVentas('en_curso',this)">🔄 En curso</button>
+          <button class="tab-btn" onclick="filtrarVentas('entregadas',this)">✅ Entregadas</button>
+          <button class="tab-btn" onclick="filtrarVentas('canceladas',this)">❌ Canceladas</button>
         </div>
         <div class="card">
-          <table><thead><tr><th>Producto</th><th>Monto</th><th>Comprador</th><th>Envío</th><th>Estado</th><th>Fecha</th><th></th></tr></thead>
+          <table><thead><tr><th>Producto</th><th>Total venta</th><th>Ingreso neto</th><th>Comprador</th><th>Envío</th><th>Estado</th><th>Fecha</th><th></th></tr></thead>
           <tbody id="tabla-ventas"></tbody></table>
         </div>
       </div>
 
       <!-- ENVÍOS -->
       <div class="section" id="sec-envios">
-        <div class="section-header"><h2>✈️ Envíos</h2><p>Estado de todos tus envíos en tiempo real</p></div>
+        <div class="section-header"><h2>✈️ Envíos</h2><p>Estado en tiempo real de todos tus envíos</p></div>
         <div class="metrics" id="metrics-envios"><div class="loading">Cargando...</div></div>
         <div class="card">
           <table><thead><tr><th>Producto</th><th>Comprador</th><th>Destino</th><th>Estado envío</th><th>Fecha</th></tr></thead>
@@ -222,11 +232,21 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 
       <!-- PUBLICACIONES -->
       <div class="section" id="sec-publicaciones">
-        <div class="section-header"><h2>📦 Publicaciones</h2><p>Tus productos en Mercado Libre</p></div>
+        <div class="section-header"><h2>📦 Publicaciones</h2><p>Tus productos activos en Mercado Libre</p></div>
         <div class="metrics" id="metrics-publi"><div class="loading">Cargando...</div></div>
         <div class="card">
-          <table><thead><tr><th>Título</th><th>Precio</th><th>Stock</th><th>Visitas 30d</th><th>Estado</th></tr></thead>
+          <table><thead><tr><th>Título</th><th>Precio</th><th>Stock</th><th>Visitas 30d</th><th>Conversión</th><th>Estado</th></tr></thead>
           <tbody id="tabla-items"></tbody></table>
+        </div>
+      </div>
+
+      <!-- MÉTRICAS -->
+      <div class="section" id="sec-metricas">
+        <div class="section-header"><h2>📉 Métricas</h2><p>Visitas, intención de compra y conversión por publicación</p></div>
+        <div class="metrics" id="metrics-metricas"><div class="loading">Cargando...</div></div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 Detalle por publicación</div></div>
+          <div id="lista-metricas"><div class="loading">Cargando...</div></div>
         </div>
       </div>
 
@@ -254,17 +274,18 @@ input:focus { border-color: #3483fa; box-shadow: 0 0 0 3px rgba(52,131,250,0.1);
 
       <!-- FINANZAS -->
       <div class="section" id="sec-finanzas">
-        <div class="section-header"><h2>💰 Finanzas</h2><p>Ingresos, cargos y balance estimado</p></div>
+        <div class="section-header"><h2>💰 Finanzas</h2><p>Resumen financiero real del mes — se actualiza automáticamente</p></div>
         <div class="metrics" id="metrics-finanzas"><div class="loading">Cargando...</div></div>
         <div class="grid2">
-          <div class="card"><div class="card-header"><div class="card-title">📊 Resumen financiero</div></div><div id="resumen-financiero"></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">🧾 Últimas ventas</div></div><div id="movimientos"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">📊 Resumen del mes</div></div><div id="resumen-financiero"></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">🧾 Ingresos por venta</div></div><div id="movimientos"></div></div>
         </div>
+        <div class="card"><div class="card-header"><div class="card-title">📈 Evolución de ingresos netos</div></div><div id="evolucion-ingresos"></div></div>
       </div>
 
       <!-- PUBLICIDAD -->
       <div class="section" id="sec-publicidad">
-        <div class="section-header"><h2>📣 Publicidad</h2><p>Análisis de tu inversión en Mercado Ads</p></div>
+        <div class="section-header"><h2>📣 Publicidad</h2><p>Análisis de inversión en Mercado Ads</p></div>
         <div class="metrics" id="metrics-ads"><div class="loading">Cargando...</div></div>
         <div class="card"><div class="card-header"><div class="card-title">💡 Análisis de inversión</div></div><div id="analisis-ads"></div></div>
       </div>
@@ -315,7 +336,7 @@ async function exchangeCode(code) {
   const cid = localStorage.getItem('ml_cid');
   const cs = localStorage.getItem('ml_csecret');
   try {
-    const r = await fetch('/api/token', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({code, client_id:cid, client_secret:cs, redirect_uri:BASE+'/', grant_type:'authorization_code'}) });
+    const r = await fetch('/api/token', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({code, client_id:cid, client_secret:cs, redirect_uri:BASE+'/', grant_type:'authorization_code'}) });
     const d = await r.json();
     if (d.access_token) {
       localStorage.setItem('ml_token', d.access_token);
@@ -336,7 +357,7 @@ async function refreshToken() {
   const rt = localStorage.getItem('ml_refresh');
   if (!rt || !cid || !cs) return false;
   try {
-    const r = await fetch('/api/token', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({client_id:cid, client_secret:cs, refresh_token:rt, grant_type:'refresh_token'}) });
+    const r = await fetch('/api/token', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({client_id:cid, client_secret:cs, refresh_token:rt, grant_type:'refresh_token'}) });
     const d = await r.json();
     if (d.access_token) {
       localStorage.setItem('ml_token', d.access_token);
@@ -396,33 +417,51 @@ function verDetalle(orderId) {
   const order = todasLasOrdenes.find(o => String(o.id) === String(orderId));
   if (!order) return;
   const dir = order.shipDetail?.receiver_address || order.shipping?.receiver_address;
-  const domicilio = dir ? `${dir.street_name || ''} ${dir.street_number || ''}, ${dir.city?.name || ''}, ${dir.state?.name || ''}` : 'Sin datos';
-  const nombre = `${order.buyer?.first_name || ''} ${order.buyer?.last_name || ''}`.trim() || order.buyer?.nickname || '—';
+  const domicilio = dir ? `${dir.street_name||''} ${dir.street_number||''}, ${dir.city?.name||''}, ${dir.state?.name||''}` : 'Sin datos';
+  const nombre = `${order.buyer?.first_name||''} ${order.buyer?.last_name||''}`.trim() || order.buyer?.nickname || '—';
+  const calc = order.calculado || {};
+  const condFiscal = order.buyer?.billing_info?.doc_type === 'CUIT' ? '🏢 Responsable Inscripto' : '👤 Consumidor Final';
+
   document.getElementById('modal-content').innerHTML = `
-    <div class="detail-section">
-      <div class="detail-section-title">🛒 Producto</div>
-      <div class="detail-row"><span class="detail-label">Producto</span><span class="detail-val">${order.order_items?.[0]?.item?.title || '—'}</span></div>
-      <div class="detail-row"><span class="detail-label">Cantidad</span><span class="detail-val">${order.order_items?.[0]?.quantity || 1}</span></div>
-      <div class="detail-row"><span class="detail-label">Precio unitario</span><span class="detail-val">${fmt(order.order_items?.[0]?.unit_price)}</span></div>
-      <div class="detail-row"><span class="detail-label">Total</span><span class="detail-val">${fmt(order.total_amount)}</span></div>
-      <div class="detail-row"><span class="detail-label">Estado</span><span class="detail-val">${badge(order.status)}</span></div>
+    <div class="detail-neto">
+      <div class="detail-neto-label">💰 Ingreso neto a tu cuenta</div>
+      <div class="detail-neto-val">${fmt(calc.ingresoNeto || order.total_amount)}</div>
+    </div>
+
+    <div class="detail-section" style="margin-top:1rem;">
+      <div class="detail-section-title">🛒 Detalle del pago</div>
+      <div class="detail-row"><span class="detail-label">Precio de venta</span><span class="detail-val">${fmt(calc.precioVenta || order.total_amount)}</span></div>
+      <div class="detail-row"><span class="detail-label">Comisión ML (~13%)</span><span class="detail-val detail-val-red">-${fmt(calc.comisionML)}</span></div>
+      <div class="detail-row"><span class="detail-label">Descuento/promoción</span><span class="detail-val detail-val-red">-${fmt(calc.descuento)}</span></div>
+      <div class="detail-row"><span class="detail-label">Ingreso neto</span><span class="detail-val detail-val-green">${fmt(calc.ingresoNeto || order.total_amount)}</span></div>
+      <div class="detail-row"><span class="detail-label">Estado orden</span><span class="detail-val">${badge(order.status)}</span></div>
       <div class="detail-row"><span class="detail-label">Fecha</span><span class="detail-val">${fmtDate(order.date_created)}</span></div>
       <div class="detail-row"><span class="detail-label">Orden #</span><span class="detail-val">${order.id}</span></div>
     </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">📦 Producto</div>
+      <div class="detail-row"><span class="detail-label">Producto</span><span class="detail-val">${order.order_items?.[0]?.item?.title||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Cantidad</span><span class="detail-val">${order.order_items?.[0]?.quantity||1}</span></div>
+      <div class="detail-row"><span class="detail-label">Precio unitario</span><span class="detail-val">${fmt(order.order_items?.[0]?.unit_price)}</span></div>
+    </div>
+
     <div class="detail-section">
       <div class="detail-section-title">👤 Datos del comprador</div>
-      <div class="detail-row"><span class="detail-label">Nombre</span><span class="detail-val">${nombre}</span></div>
-      <div class="detail-row"><span class="detail-label">Usuario ML</span><span class="detail-val">@${order.buyer?.nickname || '—'}</span></div>
-      <div class="detail-row"><span class="detail-label">Email</span><span class="detail-val">${order.buyer?.email || '—'}</span></div>
-      <div class="detail-row"><span class="detail-label">Teléfono</span><span class="detail-val">${order.buyer?.phone?.number || '—'}</span></div>
-      <div class="detail-row"><span class="detail-label">CUIT/DNI</span><span class="detail-val">${order.buyer?.identification?.number || '—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Nombre completo</span><span class="detail-val">${nombre}</span></div>
+      <div class="detail-row"><span class="detail-label">Usuario ML</span><span class="detail-val">@${order.buyer?.nickname||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Email</span><span class="detail-val">${order.buyer?.email||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Teléfono</span><span class="detail-val">${order.buyer?.phone?.number||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">DNI/CUIT</span><span class="detail-val">${order.buyer?.identification?.number||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Condición fiscal</span><span class="detail-val">${condFiscal}</span></div>
     </div>
+
     <div class="detail-section">
       <div class="detail-section-title">📍 Datos de envío</div>
-      <div class="detail-row"><span class="detail-label">Dirección</span><span class="detail-val">${domicilio}</span></div>
-      <div class="detail-row"><span class="detail-label">CP</span><span class="detail-val">${dir?.zip_code || '—'}</span></div>
-      <div class="detail-row"><span class="detail-label">Estado envío</span><span class="detail-val">${badge(order.shipDetail?.status || order.shipping?.status)}</span></div>
-      <div class="detail-row"><span class="detail-label">Tipo envío</span><span class="detail-val">${order.shipDetail?.logistic_type || order.shipping?.logistic_type || '—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Dirección completa</span><span class="detail-val">${domicilio}</span></div>
+      <div class="detail-row"><span class="detail-label">Código postal</span><span class="detail-val">${dir?.zip_code||'—'}</span></div>
+      <div class="detail-row"><span class="detail-label">Estado del envío</span><span class="detail-val">${badge(order.shipDetail?.status||order.shipping?.status)}</span></div>
+      <div class="detail-row"><span class="detail-label">Tipo de envío</span><span class="detail-val">${order.shipDetail?.logistic_type||order.shipping?.logistic_type||'—'}</span></div>
     </div>
   `;
   document.getElementById('modal-venta').classList.add('active');
@@ -434,22 +473,27 @@ function filtrarVentas(tipo, el) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   if (el) el.classList.add('active');
   let ordenes = todasLasOrdenes;
-  if (tipo === 'en_curso') ordenes = todasLasOrdenes.filter(o => o.status === 'paid' && o.shipping?.status !== 'delivered');
-  if (tipo === 'entregadas') ordenes = todasLasOrdenes.filter(o => o.shipping?.status === 'delivered' || o.status === 'closed');
+  if (tipo === 'en_curso') ordenes = todasLasOrdenes.filter(o => o.status === 'paid' && o.shipDetail?.status !== 'delivered' && o.shipping?.status !== 'delivered');
+  if (tipo === 'entregadas') ordenes = todasLasOrdenes.filter(o => o.shipDetail?.status === 'delivered' || o.shipping?.status === 'delivered' || o.status === 'closed');
   if (tipo === 'canceladas') ordenes = todasLasOrdenes.filter(o => o.status === 'cancelled');
   renderTablaVentas(ordenes);
 }
 
 function renderTablaVentas(orders) {
-  document.getElementById('tabla-ventas').innerHTML = orders.map(o => `<tr>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title || 'Orden #'+o.id}</td>
-    <td>${fmt(o.total_amount)}</td>
-    <td style="color:#888;font-size:13px;">${o.buyer?.nickname || '—'}</td>
-    <td>${badge(o.shipDetail?.status || o.shipping?.status)}</td>
-    <td>${badge(o.status)}</td>
-    <td style="color:#aaa;font-size:13px;">${fmtDate(o.date_created)}</td>
-    <td><button class="btn-ver" onclick="verDetalle('${o.id}')">Ver detalle</button></td>
-  </tr>`).join('') || '<tr><td colspan="7" class="empty">Sin ventas</td></tr>';
+  document.getElementById('tabla-ventas').innerHTML = orders.map(o => {
+    const calc = o.calculado || {};
+    const envioStatus = o.shipDetail?.status || o.shipping?.status;
+    return `<tr>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.order_items?.[0]?.item?.title||'Orden #'+o.id}</td>
+      <td>${fmt(o.total_amount)}</td>
+      <td style="color:#00b894;font-weight:600;">${fmt(calc.ingresoNeto||o.total_amount)}</td>
+      <td style="color:#888;font-size:13px;">${o.buyer?.nickname||'—'}</td>
+      <td>${badge(envioStatus)}</td>
+      <td>${badge(o.status)}</td>
+      <td style="color:#aaa;font-size:13px;">${fmtDate(o.date_created)}</td>
+      <td><button class="btn-ver" onclick="verDetalle('${o.id}')">Ver detalle</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" class="empty">Sin ventas</td></tr>';
 }
 
 async function loadAll() {
@@ -474,48 +518,54 @@ async function loadAll() {
     const stats = await statsR.json();
     const msgs = await msgsR.json();
 
-    if (data.error) { const refreshed = await refreshToken(); if (refreshed) { await loadAll(); return; } else { logout(); return; } }
+    if (data.error && data.error.includes('token')) {
+      const refreshed = await refreshToken();
+      if (refreshed) { await loadAll(); return; }
+      else { logout(); return; }
+    }
 
     DATA = { ...data, ...stats, messages: msgs.messages||[], token, uid };
     todasLasOrdenes = data.orders || [];
     await checkNuevasOrdenes(todasLasOrdenes);
     renderAll();
 
-    const now = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
-    document.getElementById('ultimo-update').textContent = `Última actualización: ${now} · Actualiza cada 30 segundos`;
+    const now = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    document.getElementById('ultimo-update').textContent = `Última actualización: ${now} · Actualiza cada 30 seg`;
     startAutoRefresh();
 
   } catch(e) { console.error(e); }
 }
 
 function renderAll() {
-  const { user, orders=[], items=[], questions=[], messages=[] } = DATA;
+  const { user, orders=[], items=[], questions=[], messages=[], billing={} } = DATA;
 
   document.getElementById('top-name').textContent = user?.nickname || 'Mi cuenta';
   document.getElementById('top-info').textContent = user?.email || '';
 
   const totalFact = orders.reduce((s,o)=>s+(o.total_amount||0),0);
+  const totalNeto = orders.reduce((s,o)=>s+(o.calculado?.ingresoNeto||o.total_amount||0),0);
   const avgTicket = orders.length ? totalFact/orders.length : 0;
   const maxVisits = Math.max(...items.map(i=>i.visits||0), 1);
   const totalVisits = items.reduce((s,i)=>s+(i.visits||0),0);
   const activeItems = items.filter(i=>i.status==='active').length;
   const ventasDia = (orders.length/30).toFixed(1);
   const unreadMsgs = messages.filter(m=>m.status==='unread').length;
-  const enCurso = orders.filter(o=>o.status==='paid' && o.shipping?.status!=='delivered').length;
+  const enCurso = orders.filter(o=>o.status==='paid' && o.shipDetail?.status!=='delivered' && o.shipping?.status!=='delivered').length;
+  const entregadas = orders.filter(o=>o.shipDetail?.status==='delivered'||o.shipping?.status==='delivered'||o.status==='closed').length;
 
   if (questions.length>0) { const b=document.getElementById('badge-preguntas'); b.textContent=questions.length; b.style.display='inline-block'; }
   if (unreadMsgs>0) { const b=document.getElementById('badge-mensajes'); b.textContent=unreadMsgs; b.style.display='inline-block'; }
 
   // RESUMEN
   document.getElementById('metrics-resumen').innerHTML = `
-    <div class="metric metric-blue"><div class="metric-icon">🛒</div><div class="metric-label">Ventas recientes</div><div class="metric-val">${orders.length}</div><div class="metric-sub">últimas órdenes</div></div>
-    <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Facturación</div><div class="metric-val">${fmt(totalFact)}</div><div class="metric-sub">total acumulado</div></div>
-    <div class="metric"><div class="metric-icon">🎯</div><div class="metric-label">Ticket promedio</div><div class="metric-val">${fmt(avgTicket)}</div><div class="metric-sub">por orden</div></div>
+    <div class="metric metric-blue"><div class="metric-icon">🛒</div><div class="metric-label">Ventas</div><div class="metric-val">${orders.length}</div><div class="metric-sub">órdenes totales</div></div>
+    <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Ingreso neto</div><div class="metric-val">${fmt(totalNeto)}</div><div class="metric-sub">ya sin comisiones ML</div></div>
+    <div class="metric"><div class="metric-icon">🎯</div><div class="metric-label">Ticket promedio</div><div class="metric-val">${fmt(avgTicket)}</div></div>
     <div class="metric metric-orange"><div class="metric-icon">🔄</div><div class="metric-label">En curso</div><div class="metric-val">${enCurso}</div><div class="metric-sub">sin entregar</div></div>
-    <div class="metric metric-purple"><div class="metric-icon">📦</div><div class="metric-label">Publicaciones</div><div class="metric-val">${activeItems}</div><div class="metric-sub">activas</div></div>
+    <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Entregadas</div><div class="metric-val">${entregadas}</div></div>
+    <div class="metric metric-purple"><div class="metric-icon">📦</div><div class="metric-label">Publicaciones</div><div class="metric-val">${activeItems}</div></div>
     <div class="metric"><div class="metric-icon">👁</div><div class="metric-label">Visitas 30d</div><div class="metric-val">${totalVisits.toLocaleString('es-AR')}</div></div>
     <div class="metric ${questions.length>0?'metric-red':''}"><div class="metric-icon">💬</div><div class="metric-label">Preguntas</div><div class="metric-val">${questions.length}</div><div class="metric-sub">sin responder</div></div>
-    <div class="metric ${unreadMsgs>0?'metric-orange':''}"><div class="metric-icon">✉️</div><div class="metric-label">Mensajes</div><div class="metric-val">${unreadMsgs}</div><div class="metric-sub">sin leer</div></div>
   `;
 
   const byDay = {};
@@ -531,19 +581,17 @@ function renderAll() {
   const alertas = [];
   if (unreadMsgs>0) alertas.push(`<div class="alert alert-warn">✉️ Tenés <strong>${unreadMsgs} mensaje${unreadMsgs>1?'s':''}</strong> sin leer.</div>`);
   if (questions.length>0) alertas.push(`<div class="alert alert-warn">💬 Tenés <strong>${questions.length} pregunta${questions.length>1?'s':''}</strong> sin responder.</div>`);
-  if (enCurso>0) alertas.push(`<div class="alert alert-info">🔄 Tenés <strong>${enCurso} venta${enCurso>1?'s':''}</strong> en curso sin entregar.</div>`);
-  if (parseFloat(ventasDia)>=2) alertas.push(`<div class="alert alert-success">✅ Buen ritmo: ${ventasDia} ventas/día en promedio.</div>`);
+  if (enCurso>0) alertas.push(`<div class="alert alert-info">🔄 <strong>${enCurso} venta${enCurso>1?'s':''}</strong> en curso sin entregar.</div>`);
+  if (parseFloat(ventasDia)>=2) alertas.push(`<div class="alert alert-success">✅ Buen ritmo: ${ventasDia} ventas/día.</div>`);
   alertas.push(`<div class="alert alert-info">💡 Con $72.000/día de publicidad necesitás mínimo 3 ventas/día para cubrir la inversión.</div>`);
   document.getElementById('alertas').innerHTML = alertas.join('');
 
   // VENTAS
-  const ventasPagadas = orders.filter(o=>o.status==='paid').length;
-  const entregadas = orders.filter(o=>o.shipping?.status==='delivered'||o.status==='closed').length;
   document.getElementById('metrics-ventas').innerHTML = `
     <div class="metric metric-blue"><div class="metric-icon">🛒</div><div class="metric-label">Total</div><div class="metric-val">${orders.length}</div></div>
     <div class="metric metric-orange"><div class="metric-icon">🔄</div><div class="metric-label">En curso</div><div class="metric-val">${enCurso}</div></div>
     <div class="metric metric-green"><div class="metric-icon">✅</div><div class="metric-label">Entregadas</div><div class="metric-val">${entregadas}</div></div>
-    <div class="metric"><div class="metric-icon">📅</div><div class="metric-label">Por día</div><div class="metric-val">${ventasDia}</div></div>
+    <div class="metric"><div class="metric-icon">💵</div><div class="metric-label">Ingreso neto total</div><div class="metric-val">${fmt(totalNeto)}</div></div>
   `;
   renderTablaVentas(todasLasOrdenes);
 
@@ -569,12 +617,44 @@ function renderAll() {
     <div class="metric"><div class="metric-icon">👁</div><div class="metric-label">Visitas totales</div><div class="metric-val">${totalVisits.toLocaleString()}</div></div>
     <div class="metric metric-blue"><div class="metric-icon">📊</div><div class="metric-label">Visitas/publi</div><div class="metric-val">${items.length?Math.round(totalVisits/items.length):0}</div></div>
   `;
-  document.getElementById('tabla-items').innerHTML = items.map(i=>`<tr>
-    <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
-    <td>${fmt(i.price)}</td><td>${i.available_quantity??'—'}</td>
-    <td><div style="display:flex;align-items:center;gap:8px;"><span>${(i.visits||0).toLocaleString()}</span><div class="progress-wrap" style="width:50px;"><div class="progress-fill" style="width:${Math.round(((i.visits||0)/maxVisits)*100)}%"></div></div></div></td>
-    <td>${badge(i.status)}</td>
-  </tr>`).join('') || '<tr><td colspan="5" class="empty">Sin publicaciones</td></tr>';
+  document.getElementById('tabla-items').innerHTML = items.map(i=>{
+    const ventasItem = orders.filter(o=>o.order_items?.[0]?.item?.id===i.id).length;
+    const conv = i.visits ? ((ventasItem/i.visits)*100).toFixed(1) : 0;
+    return `<tr>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.title||''}</td>
+      <td>${fmt(i.price)}</td>
+      <td>${i.available_quantity??'—'}</td>
+      <td><div style="display:flex;align-items:center;gap:8px;"><span>${(i.visits||0).toLocaleString()}</span><div class="progress-wrap" style="width:50px;"><div class="progress-fill" style="width:${Math.round(((i.visits||0)/maxVisits)*100)}%"></div></div></div></td>
+      <td>${conv}%</td>
+      <td>${badge(i.status)}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="empty">Sin publicaciones</td></tr>';
+
+  // MÉTRICAS
+  const totalConv = totalVisits ? ((orders.length/totalVisits)*100).toFixed(2) : 0;
+  document.getElementById('metrics-metricas').innerHTML = `
+    <div class="metric metric-blue"><div class="metric-icon">👁</div><div class="metric-label">Visitas totales 30d</div><div class="metric-val">${totalVisits.toLocaleString()}</div></div>
+    <div class="metric"><div class="metric-icon">📊</div><div class="metric-label">Visitas/día prom.</div><div class="metric-val">${Math.round(totalVisits/30).toLocaleString()}</div></div>
+    <div class="metric metric-green"><div class="metric-icon">🛒</div><div class="metric-label">Conversión total</div><div class="metric-val">${totalConv}%</div><div class="metric-sub">visitas → ventas</div></div>
+    <div class="metric metric-purple"><div class="metric-icon">🎯</div><div class="metric-label">Ventas/100 visitas</div><div class="metric-val">${totalConv}</div></div>
+  `;
+  document.getElementById('lista-metricas').innerHTML = items.map(i=>{
+    const ventasItem = orders.filter(o=>o.order_items?.[0]?.item?.id===i.id).length;
+    const conv = i.visits ? ((ventasItem/i.visits)*100).toFixed(1) : 0;
+    const pct = Math.round(((i.visits||0)/maxVisits)*100);
+    return `<div class="metrica-publi">
+      <div class="metrica-publi-info">
+        <div class="metrica-publi-title">${i.title||''}</div>
+        <div style="margin-top:6px;"><div class="progress-wrap"><div class="progress-fill" style="width:${pct}%"></div></div></div>
+        <div style="font-size:11px;color:#aaa;margin-top:4px;">${fmt(i.price)} · ${badge(i.status)}</div>
+      </div>
+      <div class="metrica-publi-stats" style="margin-left:16px;">
+        <div class="metrica-publi-stat"><div class="metrica-publi-stat-val">${(i.visits||0).toLocaleString()}</div><div class="metrica-publi-stat-label">Visitas</div></div>
+        <div class="metrica-publi-stat"><div class="metrica-publi-stat-val">${ventasItem}</div><div class="metrica-publi-stat-label">Ventas</div></div>
+        <div class="metrica-publi-stat"><div class="metrica-publi-stat-val">${conv}%</div><div class="metrica-publi-stat-label">Conversión</div></div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty">Sin datos de publicaciones</div>';
 
   // MENSAJES
   document.getElementById('metrics-mensajes').innerHTML = `
@@ -600,59 +680,77 @@ function renderAll() {
       <div class="question-product">Publicación #${q.item_id}</div>
     </div>`).join('') : '<div class="empty"><div class="empty-icon">✅</div>No tenés preguntas sin responder</div>';
 
-  // FINANZAS
-  const percepcionesEst = orders.length*8500;
-  const comisionEst = totalFact*0.13;
+  // FINANZAS REALES
+  const publiMesReal = 360000;
+  const percepcionesReal = orders.length * 8500;
+  const comisionTotal = orders.reduce((s,o)=>s+(o.calculado?.comisionML||0),0);
+  const descuentoTotal = orders.reduce((s,o)=>s+(o.calculado?.descuento||0),0);
+  const gananciaEstimada = totalNeto - publiMesReal - percepcionesReal;
+
   document.getElementById('metrics-finanzas').innerHTML = `
-    <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Facturación</div><div class="metric-val">${fmt(totalFact)}</div></div>
-    <div class="metric metric-orange"><div class="metric-icon">🏦</div><div class="metric-label">Percepciones est.</div><div class="metric-val">${fmt(percepcionesEst)}</div><div class="metric-sub">~$8.500/venta</div></div>
-    <div class="metric metric-red"><div class="metric-icon">📋</div><div class="metric-label">Comisión ML est.</div><div class="metric-val">${fmt(comisionEst)}</div><div class="metric-sub">~13%</div></div>
-    <div class="metric"><div class="metric-icon">💰</div><div class="metric-label">Neto estimado</div><div class="metric-val">${fmt(totalFact-comisionEst-percepcionesEst)}</div></div>
+    <div class="metric metric-green"><div class="metric-icon">💵</div><div class="metric-label">Ingreso neto real</div><div class="metric-val">${fmt(totalNeto)}</div><div class="metric-sub">ya sin comisiones</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">📣</div><div class="metric-label">Publicidad/mes</div><div class="metric-val">${fmt(publiMesReal)}</div><div class="metric-sub">$12.000/día</div></div>
+    <div class="metric metric-red"><div class="metric-icon">🏦</div><div class="metric-label">Percepciones est.</div><div class="metric-val">${fmt(percepcionesReal)}</div><div class="metric-sub">~$8.500/venta</div></div>
+    <div class="metric ${gananciaEstimada>0?'metric-green':'metric-red'}"><div class="metric-icon">💰</div><div class="metric-label">Ganancia estimada</div><div class="metric-val">${fmt(gananciaEstimada)}</div><div class="metric-sub">neto - gastos</div></div>
   `;
+
   document.getElementById('resumen-financiero').innerHTML = `
-    <div class="stat-row"><span class="stat-label">Facturación total</span><span class="stat-val">${fmt(totalFact)}</span></div>
-    <div class="stat-row"><span class="stat-label">Comisión ML (~13%)</span><span class="stat-val" style="color:#e74c3c;">-${fmt(comisionEst)}</span></div>
-    <div class="stat-row"><span class="stat-label">Percepciones est.</span><span class="stat-val" style="color:#e74c3c;">-${fmt(percepcionesEst)}</span></div>
-    <div class="stat-row"><span class="stat-label">Neto estimado</span><span class="stat-val" style="color:#00b894;">${fmt(totalFact-comisionEst-percepcionesEst)}</span></div>
+    <div class="stat-row"><span class="stat-label">Facturación bruta</span><span class="stat-val">${fmt(totalFact)}</span></div>
+    <div class="stat-row"><span class="stat-label">Comisiones ML</span><span class="stat-val" style="color:#e74c3c;">-${fmt(comisionTotal)}</span></div>
+    <div class="stat-row"><span class="stat-label">Descuentos/promos</span><span class="stat-val" style="color:#e74c3c;">-${fmt(descuentoTotal)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ingreso neto real</span><span class="stat-val" style="color:#00b894;font-size:16px;">${fmt(totalNeto)}</span></div>
+    <div class="stat-row"><span class="stat-label">— Publicidad</span><span class="stat-val" style="color:#e74c3c;">-${fmt(publiMesReal)}</span></div>
+    <div class="stat-row"><span class="stat-label">— Percepciones est.</span><span class="stat-val" style="color:#e74c3c;">-${fmt(percepcionesReal)}</span></div>
+    <div class="stat-row"><span class="stat-label" style="font-weight:700;">Ganancia estimada</span><span class="stat-val" style="color:${gananciaEstimada>0?'#00b894':'#e74c3c'};font-size:16px;">${fmt(gananciaEstimada)}</span></div>
   `;
-  document.getElementById('movimientos').innerHTML = orders.slice(0,8).map(o=>`
-    <div class="stat-row"><span class="stat-label">${(o.order_items?.[0]?.item?.title||'Venta').substring(0,28)}...</span><span class="stat-val" style="color:#00b894;">+${fmt(o.total_amount)}</span></div>`).join('');
+
+  document.getElementById('movimientos').innerHTML = orders.slice(0,10).map(o=>`
+    <div class="stat-row">
+      <span class="stat-label" style="font-size:12px;">${(o.order_items?.[0]?.item?.title||'Venta').substring(0,25)}...</span>
+      <div style="text-align:right;">
+        <div style="color:#00b894;font-weight:600;font-size:13px;">+${fmt(o.calculado?.ingresoNeto||o.total_amount)}</div>
+        <div style="color:#aaa;font-size:11px;">${fmtDate(o.date_created)}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('evolucion-ingresos').innerHTML = Object.entries(
+    orders.reduce((acc,o)=>{const d=fmtDate(o.date_created); acc[d]=(acc[d]||0)+(o.calculado?.ingresoNeto||o.total_amount||0); return acc;},{})
+  ).slice(0,10).map(([d,v])=>`
+    <div class="stat-row"><span class="stat-label">${d}</span><span class="stat-val" style="color:#00b894;">${fmt(v)}</span></div>`).join('') || '<div class="empty">Sin datos</div>';
 
   // PUBLICIDAD
-  const publiDia=12000, publiMes=publiDia*30;
-  const costoPorVenta = orders.length ? publiMes/orders.length : 0;
+  const costoPorVenta = orders.length ? publiMesReal/orders.length : 0;
   document.getElementById('metrics-ads').innerHTML = `
-    <div class="metric"><div class="metric-icon">📣</div><div class="metric-label">Gasto diario actual</div><div class="metric-val">${fmt(publiDia)}</div></div>
-    <div class="metric"><div class="metric-icon">📅</div><div class="metric-label">Gasto mensual</div><div class="metric-val">${fmt(publiMes)}</div></div>
-    <div class="metric metric-orange"><div class="metric-icon">🎯</div><div class="metric-label">Costo por venta</div><div class="metric-val">${fmt(costoPorVenta)}</div></div>
+    <div class="metric"><div class="metric-icon">📣</div><div class="metric-label">Gasto diario</div><div class="metric-val">${fmt(12000)}</div></div>
+    <div class="metric"><div class="metric-icon">📅</div><div class="metric-label">Gasto mensual</div><div class="metric-val">${fmt(publiMesReal)}</div></div>
+    <div class="metric metric-orange"><div class="metric-icon">🎯</div><div class="metric-label">Costo/venta</div><div class="metric-val">${fmt(costoPorVenta)}</div></div>
     <div class="metric metric-blue"><div class="metric-icon">📈</div><div class="metric-label">Recomendado ML</div><div class="metric-val">$72.000</div><div class="metric-sub">por día</div></div>
   `;
   document.getElementById('analisis-ads').innerHTML = `
-    <div class="alert alert-info">📊 Con publicidad actual de ${fmt(publiDia)}/día, el costo por venta es ${fmt(costoPorVenta)}.</div>
-    <div class="alert alert-warn">⚠️ ML recomienda $72.000/día = $2.160.000/mes.</div>
-    <div class="alert alert-success">💡 Con tu socio al 50/50: $36.000/día cada uno. Necesitan mínimo 3 ventas/día.</div>
+    <div class="alert alert-info">📊 Con $12.000/día el costo por venta es ${fmt(costoPorVenta)}.</div>
+    <div class="alert alert-warn">⚠️ ML recomienda $72.000/día = $2.160.000/mes en publicidad.</div>
+    <div class="alert alert-success">💡 Con tu socio 50/50: $36.000/día cada uno. Necesitan mínimo 3 ventas/día para cubrir la inversión.</div>
   `;
 
   // ANÁLISIS
   const convRate = totalVisits ? ((orders.length/totalVisits)*100).toFixed(2) : 0;
   document.getElementById('metricas-clave').innerHTML = `
     <div class="stat-row"><span class="stat-label">Ventas/día (prom.)</span><span class="stat-val">${ventasDia}</span></div>
-    <div class="stat-row"><span class="stat-label">Facturación/día</span><span class="stat-val">${fmt(totalFact/30)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ingreso neto/día</span><span class="stat-val">${fmt(totalNeto/30)}</span></div>
     <div class="stat-row"><span class="stat-label">Ticket promedio</span><span class="stat-val">${fmt(avgTicket)}</span></div>
     <div class="stat-row"><span class="stat-label">Tasa de conversión</span><span class="stat-val">${convRate}%</span></div>
     <div class="stat-row"><span class="stat-label">Visitas totales 30d</span><span class="stat-val">${totalVisits.toLocaleString()}</span></div>
     <div class="stat-row"><span class="stat-label">Publicaciones activas</span><span class="stat-val">${activeItems}</span></div>
   `;
-  const proyFact = avgTicket*Math.round(parseFloat(ventasDia)*30);
   document.getElementById('proyeccion').innerHTML = `
     <div class="stat-row"><span class="stat-label">Ventas proy./mes</span><span class="stat-val">${Math.round(parseFloat(ventasDia)*30)}</span></div>
-    <div class="stat-row"><span class="stat-label">Facturación proy.</span><span class="stat-val">${fmt(proyFact)}</span></div>
+    <div class="stat-row"><span class="stat-label">Ingreso neto proy.</span><span class="stat-val">${fmt((totalNeto/orders.length||0)*Math.round(parseFloat(ventasDia)*30))}</span></div>
     <div class="stat-row"><span class="stat-label">Publicidad actual/mes</span><span class="stat-val" style="color:#e74c3c;">-${fmt(360000)}</span></div>
     <div class="stat-row"><span class="stat-label">Con $72k publi/mes</span><span class="stat-val" style="color:#e74c3c;">-${fmt(2160000)}</span></div>
     <div class="stat-row"><span class="stat-label">Percepciones proy.</span><span class="stat-val" style="color:#e74c3c;">-${fmt(Math.round(parseFloat(ventasDia)*30)*8500)}</span></div>
   `;
   document.getElementById('modelo-socio').innerHTML = `
-    <div class="alert alert-info">Con ticket de ${fmt(avgTicket)}, necesitás definir el margen real por producto para el cálculo exacto.</div>
+    <div class="alert alert-info">Con ingreso neto promedio de ${fmt(totalNeto/orders.length||0)} por venta, así quedaría la división:</div>
     <table style="margin-top:1rem;"><thead><tr><th>Concepto</th><th>Vos (65%)</th><th>Tu socio (35%)</th></tr></thead><tbody>
       <tr><td>Publicidad mensual</td><td style="color:#e74c3c;">-$1.080.000</td><td style="color:#e74c3c;">-$1.080.000</td></tr>
       <tr><td>Percepciones (solo vos)</td><td style="color:#e74c3c;">-${fmt(Math.round(parseFloat(ventasDia)*30)*8500)}</td><td>$0</td></tr>
