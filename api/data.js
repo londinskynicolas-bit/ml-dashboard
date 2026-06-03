@@ -19,43 +19,52 @@ export default async function handler(req, res) {
     const itemsSearch = await itemsR.json();
     const orders = ordersData.results || [];
 
-    // Traer promociones activas del vendedor
-    let promociones = [];
-    try {
-      const promoR = await fetch(`https://api.mercadolibre.com/seller-promotions/promotions?seller_id=${uid}&app_version=v2&status=started`, { headers });
-      const promoData = await promoR.json();
-      promociones = promoData.results || promoData || [];
-    } catch(e) {}
-
     // Detalle completo de cada orden
     const ordersWithDetail = await Promise.all(orders.slice(0, 30).map(async (order) => {
       try {
         const [orderDetailR, shipR] = await Promise.all([
           fetch(`https://api.mercadolibre.com/orders/${order.id}`, { headers }),
-          order.shipping?.id ? fetch(`https://api.mercadolibre.com/shipments/${order.shipping.id}`, { headers }) : Promise.resolve(null)
+          order.shipping?.id
+            ? fetch(`https://api.mercadolibre.com/shipments/${order.shipping.id}`, { headers })
+            : Promise.resolve(null)
         ]);
+
         const orderDetail = await orderDetailR.json();
         const shipDetail = shipR ? await shipR.json() : null;
 
-        // Calcular ingreso neto real con promociones
-        const item = orderDetail.order_items?.[0];
-        const precioVenta = (item?.unit_price || 0) * (item?.quantity || 1);
-        const precioOriginal = (item?.full_unit_price || item?.unit_price || 0) * (item?.quantity || 1);
-        const descuentoPromo = precioOriginal > precioVenta ? precioOriginal - precioVenta : (orderDetail.coupon?.amount || 0);
-        const comisionML = precioVenta * 0.13;
-        const ingresoNeto = precioVenta - comisionML;
+        // Datos del comprador completos
+        let buyerDetail = null;
+        try {
+          const buyerR = await fetch(`https://api.mercadolibre.com/users/${order.buyer?.id}`, { headers });
+          buyerDetail = await buyerR.json();
+        } catch(e) {}
 
-        // Buscar nombre de promoción
-        const promoNombre = item?.sale_fee ? `Promoción activa` : (descuentoPromo > 0 ? 'Descuento aplicado' : 'Sin promoción');
+        const item = orderDetail.order_items?.[0];
+        const precioOriginal = item?.full_unit_price || item?.unit_price || 0;
+        const precioVenta = item?.unit_price || 0;
+        const cantidad = item?.quantity || 1;
+        const totalOriginal = precioOriginal * cantidad;
+        const totalVenta = precioVenta * cantidad;
+        const descuentoPromo = totalOriginal > totalVenta ? totalOriginal - totalVenta : (orderDetail.coupon?.amount || 0);
+        const comisionML = totalVenta * 0.13;
+        const ingresoNeto = totalVenta - comisionML;
+
+        // Nombre de la promoción
+        let promoNombre = 'Sin promoción';
+        if (descuentoPromo > 0) {
+          promoNombre = item?.sale_fee ? 'Precio especial ML' : 'Descuento aplicado';
+        }
 
         return {
           ...order,
           ...orderDetail,
           shipDetail,
+          buyerDetail,
           calculado: {
-            precioVenta: Math.round(precioVenta),
-            precioOriginal: Math.round(precioOriginal),
+            precioOriginal: Math.round(totalOriginal),
+            precioVenta: Math.round(totalVenta),
             descuentoPromo: Math.round(descuentoPromo),
+            descuentoPct: totalOriginal > 0 ? Math.round((descuentoPromo / totalOriginal) * 100) : 0,
             comisionML: Math.round(comisionML),
             ingresoNeto: Math.round(ingresoNeto),
             promoNombre
@@ -66,7 +75,7 @@ export default async function handler(req, res) {
       }
     }));
 
-    // Items con detalle, visitas y promociones
+    // Items básicos con visitas
     let items = [];
     const itemIds = (itemsSearch.results || []).slice(0, 20);
     if (itemIds.length > 0) {
@@ -76,34 +85,13 @@ export default async function handler(req, res) {
       ]);
       const itemsData = await itemsDetailR.json();
       const visitsData = await visitsR.json().catch(() => ({}));
-
-      items = await Promise.all(itemsData.map(async r => {
+      items = itemsData.map(r => {
         const item = r.body || r;
-        if (!item?.id) return null;
-
-        // Buscar precio de venta con promoción
-        let precioPromo = null;
-        let nombrePromo = null;
-        try {
-          const salePriceR = await fetch(`https://api.mercadolibre.com/items/${item.id}/sale_price?context=channel_marketplace`, { headers });
-          const salePrice = await salePriceR.json();
-          if (salePrice.amount && salePrice.amount < item.price) {
-            precioPromo = salePrice.amount;
-            nombrePromo = salePrice.metadata?.promotion_type || 'Promoción activa';
-          }
-        } catch(e) {}
-
-        return {
-          ...item,
-          visits: visitsData[item.id] || 0,
-          precioPromo,
-          nombrePromo
-        };
-      }));
-      items = items.filter(Boolean);
+        return { ...item, visits: visitsData[item.id] || 0 };
+      }).filter(i => i && i.id);
     }
 
-    res.status(200).json({ user, orders: ordersWithDetail, items, promociones });
+    res.status(200).json({ user, orders: ordersWithDetail, items });
   } catch(e) {
     res.status(500).json({ error: e.message });
   }
