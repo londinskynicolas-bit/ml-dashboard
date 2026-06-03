@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DECOANDHOME · Dashboard</title>
+<title>DECOANDHOME · Dashboard ML</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 :root{--bg:#0f1117;--bg2:#161b27;--card:#1e2433;--card2:#252d3d;--border:#2a3347;--text:#f0f4ff;--text2:#8892a4;--text3:#4a5568;--blue:#4f8ef7;--blue2:#3b7de8;--blue-dim:#1a2d4a;--green:#34d399;--green-dim:#0d3325;--orange:#fbbf24;--orange-dim:#3d2d0a;--red:#f87171;--red-dim:#3d1515;--purple:#a78bfa;--purple-dim:#2d1f4a;--cyan:#22d3ee;--cyan-dim:#0a2d35;--r:14px;--r2:10px;--shadow:0 4px 24px rgba(0,0,0,0.4);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
-
-/* TOPBAR */
 .topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;}
 .tl{display:flex;align-items:center;gap:12px;}
 .t-logo{width:36px;height:36px;background:linear-gradient(135deg,#4f8ef7,#a78bfa);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
@@ -22,11 +20,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .t-btn:hover{background:var(--blue2);}
 .t-ghost{background:none;border:none;color:var(--text2);cursor:pointer;font-size:13px;padding:7px 10px;border-radius:8px;}
 .t-ghost:hover{background:var(--card);color:var(--text);}
-
-/* LAYOUT */
 .body{display:flex;flex:1;}
-
-/* SIDEBAR */
 .sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:.75rem 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;flex-shrink:0;}
 .s-section{padding:.75rem 1rem .3rem;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;}
 .nav{display:flex;align-items:center;gap:9px;padding:9px 1rem;cursor:pointer;border-left:3px solid transparent;font-size:13.5px;color:var(--text2);transition:all .12s;margin:1px 0;}
@@ -35,8 +29,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nav-e{font-size:16px;width:20px;text-align:center;}
 .nbadge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:20px;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-
-/* MAIN */
 .main{flex:1;padding:1.5rem;overflow-y:auto;min-width:0;}
 .sec{display:none;}
 .sec.active{display:block;animation:fi .18s ease;}
@@ -44,8 +36,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .ph{margin-bottom:1.5rem;}
 .pt{font-size:21px;font-weight:800;letter-spacing:-.5px;}
 .ps{font-size:13px;color:var(--text2);margin-top:3px;}
-
-/* METRICS */
 .mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:1.5rem;}
 .met{background:var(--card);border-radius:var(--r);padding:1.2rem;border:1px solid var(--border);transition:all .2s;cursor:default;position:relative;overflow:hidden;}
 .met::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
@@ -66,23 +56,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .met-r .mv{color:var(--red);}
 .met-p .mv{color:var(--purple);}
 .met-c .mv{color:var(--cyan);}
-
-/* CARDS */
 .card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.25rem;margin-bottom:1.25rem;}
 .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;}
 .ct{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1rem;margin-bottom:1.1rem;}
-
-/* TABLES */
 .tw{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 th{text-align:left;font-size:10px;font-weight:700;color:var(--text3);padding:9px 10px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;}
 td{padding:12px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tbody tr:hover td{background:var(--card2);}
-
-/* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;}
 .bg{background:var(--green-dim);color:var(--green);}
 .by{background:var(--orange-dim);color:var(--orange);}
@@ -90,50 +73,36 @@ tbody tr:hover td{background:var(--card2);}
 .bgr{background:var(--card2);color:var(--text2);}
 .bb{background:var(--blue-dim);color:var(--blue);}
 .bp{background:var(--purple-dim);color:var(--purple);}
-
-/* STAT ROWS */
 .sr{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
 .sr:last-child{border-bottom:none;}
 .sl{color:var(--text2);}
 .sv{font-weight:700;color:var(--text);}
-
-/* ALERTS */
 .al{padding:12px 15px;border-radius:var(--r2);margin-bottom:10px;font-size:13.5px;display:flex;align-items:flex-start;gap:9px;line-height:1.5;}
 .al-w{background:var(--orange-dim);border-left:3px solid var(--orange);color:#fde68a;}
 .al-s{background:var(--green-dim);border-left:3px solid var(--green);color:#6ee7b7;}
 .al-i{background:var(--blue-dim);border-left:3px solid var(--blue);color:#93c5fd;}
 .al-d{background:var(--red-dim);border-left:3px solid var(--red);color:#fca5a5;}
-
-/* PROGRESS */
 .pw{background:var(--border);border-radius:4px;height:5px;overflow:hidden;}
 .pf{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .5s ease;}
-
-/* EMPTY / LOADING */
 .empty{text-align:center;padding:2.5rem;color:var(--text3);font-size:13px;}
 .ei{font-size:40px;margin-bottom:10px;opacity:.4;}
 .loading{text-align:center;padding:2.5rem;color:var(--text3);font-size:13px;}
-
-/* MESSAGES */
 .mi2{padding:14px 0;border-bottom:1px solid var(--border);}
 .mi2:last-child{border-bottom:none;}
 .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.mb{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
+.mb2{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
 .md{font-size:11px;color:var(--text3);}
-.mp{font-size:12px;color:var(--blue);margin-bottom:4px;font-weight:500;}
+.mp2{font-size:12px;color:var(--blue);margin-bottom:4px;font-weight:500;}
 .mt2{font-size:13px;color:var(--text2);line-height:1.5;background:var(--card2);padding:8px 12px;border-radius:8px;}
 .mu-dot{width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0;}
-
-/* QUESTIONS */
 .qi{padding:14px 0;border-bottom:1px solid var(--border);}
 .qi:last-child{border-bottom:none;}
 .qt{font-size:14px;color:var(--text);margin-bottom:5px;line-height:1.5;font-weight:500;}
 .qm{font-size:12px;color:var(--text3);}
 .qp{font-size:12px;color:var(--blue);margin-top:3px;font-weight:500;}
-
-/* MODAL */
-.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;justify-content:center;align-items:center;backdrop-filter:blur(6px);}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;justify-content:center;align-items:center;backdrop-filter:blur(6px);}
 .mo.active{display:flex;}
-.mbox{background:var(--card);border-radius:18px;padding:1.75rem;max-width:580px;width:92%;max-height:88vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 25px 60px rgba(0,0,0,.6);animation:mi3 .18s ease;}
+.mbox{background:var(--card);border-radius:18px;padding:1.75rem;max-width:600px;width:92%;max-height:90vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 25px 60px rgba(0,0,0,.6);animation:mi3 .18s ease;}
 @keyframes mi3{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 .moh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
 .mot{font-size:17px;font-weight:800;}
@@ -148,13 +117,13 @@ tbody tr:hover td{background:var(--card2);}
 .neto-box{background:linear-gradient(135deg,var(--green-dim),rgba(52,211,153,.08));border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
 .nl{font-size:13px;font-weight:700;color:var(--green);}
 .nv{font-size:26px;font-weight:900;color:var(--green);letter-spacing:-.5px;}
-
-/* TABS */
+.precio-box{background:var(--card2);border-radius:10px;padding:1rem;margin-bottom:10px;border:1px solid var(--border);}
+.precio-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border);}
+.precio-row:last-child{border-bottom:none;}
+.precio-tachado{text-decoration:line-through;color:var(--text3);}
 .tabs{display:flex;gap:5px;margin-bottom:1.1rem;background:var(--card2);padding:3px;border-radius:10px;width:fit-content;}
 .tab{padding:6px 14px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .12s;}
 .tab.active{background:var(--blue);color:#fff;font-weight:700;}
-
-/* ITEM METRIC CARD */
 .imc{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.1rem;margin-bottom:8px;display:flex;align-items:center;gap:1rem;transition:all .15s;}
 .imc:hover{border-color:var(--blue);transform:translateX(2px);}
 .imc-info{flex:1;min-width:0;}
@@ -164,20 +133,20 @@ tbody tr:hover td{background:var(--card2);}
 .is{text-align:center;}
 .isv{font-size:19px;font-weight:900;color:var(--blue);line-height:1;}
 .isl{font-size:10px;color:var(--text3);margin-top:2px;font-weight:600;text-transform:uppercase;}
-
-/* ENVIO CARD */
 .ec{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.1rem;margin-bottom:8px;}
 .ech{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
 .ect{font-size:14px;font-weight:700;color:var(--text);}
 .ecm{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--text2);}
-
-/* PROMO TAG */
 .ptag{display:inline-flex;align-items:center;gap:3px;background:var(--orange-dim);color:var(--orange);padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;}
-
-/* BTN VER */
 .bv{background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;transition:all .12s;white-space:nowrap;}
 .bv:hover{background:var(--blue);color:#fff;}
-
+/* KPI CARD */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.25rem;}
+.kpi{background:var(--card2);border-radius:var(--r2);padding:1rem;border:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.kpi-icon{font-size:28px;}
+.kpi-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+.kpi-val{font-size:18px;font-weight:800;color:var(--text);margin-top:2px;}
+.kpi-sub{font-size:11px;color:var(--text3);margin-top:2px;}
 /* AUTH */
 #auth{max-width:400px;margin:4rem auto;background:var(--card);border-radius:20px;padding:2.25rem;border:1px solid var(--border);box-shadow:var(--shadow);}
 .alo{font-size:48px;text-align:center;margin-bottom:1rem;}
@@ -186,17 +155,15 @@ tbody tr:hover td{background:var(--card2);}
 label{display:block;font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;margin-top:14px;}
 input[type=text],input[type=password]{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;transition:all .15s;color:var(--text);background:var(--card2);}
 input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
-.btn-p{width:100%;margin-top:1.25rem;padding:13px;background:linear-gradient(135deg,var(--blue),#7c3aed);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:-.2px;}
+.btn-p{width:100%;margin-top:1.25rem;padding:13px;background:linear-gradient(135deg,var(--blue),#7c3aed);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
 .btn-p:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(79,142,247,.3);}
 .err{background:var(--red-dim);border-radius:8px;padding:10px 13px;color:var(--red);font-size:13px;margin-top:10px;display:none;border-left:3px solid var(--red);}
-
 @media(max-width:900px){.sidebar{display:none;}}
-@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.mets{grid-template-columns:1fr 1fr;}.main{padding:1rem;}}
+@media(max-width:600px){.g2{grid-template-columns:1fr;}.mets{grid-template-columns:1fr 1fr;}.main{padding:1rem;}}
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
 <div id="auth">
   <div class="alo">🛒</div>
   <div class="at">Dashboard ML</div>
@@ -209,7 +176,6 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
   <div class="err" id="err"></div>
 </div>
 
-<!-- MODAL -->
 <div class="mo" id="modal">
   <div class="mbox">
     <div class="moh">
@@ -220,7 +186,6 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none;flex-direction:column;min-height:100vh;">
   <div class="topbar">
     <div class="tl">
@@ -260,18 +225,21 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
 
     <div class="main">
 
+      <!-- RESUMEN -->
       <div class="sec active" id="sec-resumen">
         <div class="ph"><div class="pt">📊 Resumen general</div><div class="ps" id="lu">Actualizando...</div></div>
         <div class="mets" id="mr"><div class="loading">Cargando datos...</div></div>
+        <div class="kpi-grid" id="kpi-grid"></div>
         <div class="g2">
           <div class="card"><div class="ch"><div class="ct">📅 Ventas por día</div></div><div id="vd"></div></div>
-          <div class="card"><div class="ch"><div class="ct">🏆 Top productos</div></div><div id="tp2"></div></div>
+          <div class="card"><div class="ch"><div class="ct">🏆 Top productos vendidos</div></div><div id="tp2"></div></div>
         </div>
-        <div class="card"><div class="ch"><div class="ct">🔔 Alertas</div></div><div id="al2"></div></div>
+        <div class="card"><div class="ch"><div class="ct">🔔 Alertas y notificaciones</div></div><div id="al2"></div></div>
       </div>
 
+      <!-- VENTAS -->
       <div class="sec" id="sec-ventas">
-        <div class="ph"><div class="pt">🛒 Ventas</div><div class="ps">Clic en "Ver →" para ver todos los datos del cliente e ingreso neto con promociones descontadas</div></div>
+        <div class="ph"><div class="pt">🛒 Ventas</div><div class="ps">Clic en "Ver →" para ver ingreso neto, promociones, DNI/CUIT y todos los datos del cliente</div></div>
         <div class="mets" id="mvt"><div class="loading">Cargando...</div></div>
         <div class="tabs">
           <button class="tab active" onclick="fv('todas',this)">Todas</button>
@@ -279,65 +247,75 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
           <button class="tab" onclick="fv('entregadas',this)">✅ Entregadas</button>
           <button class="tab" onclick="fv('canceladas',this)">❌ Canceladas</button>
         </div>
-        <div class="card"><div class="tw"><table><thead><tr><th>Producto</th><th>Total</th><th>Neto</th><th>Promo</th><th>Comprador</th><th>Envío</th><th>Estado</th><th>Fecha</th><th></th></tr></thead><tbody id="tv"></tbody></table></div></div>
+        <div class="card"><div class="tw"><table><thead><tr><th>Producto</th><th>Total cliente</th><th>Neto vendedor</th><th>Promo</th><th>Comprador</th><th>Envío</th><th>Estado</th><th>Fecha</th><th></th></tr></thead><tbody id="tv"></tbody></table></div></div>
       </div>
 
+      <!-- ENVÍOS -->
       <div class="sec" id="sec-envios">
-        <div class="ph"><div class="pt">✈️ Envíos</div><div class="ps">Estado real ordenado por fecha — todos los datos de cada envío</div></div>
+        <div class="ph"><div class="pt">✈️ Envíos</div><div class="ps">Estado real ordenado por fecha</div></div>
         <div class="mets" id="me2"><div class="loading">Cargando...</div></div>
         <div id="le"></div>
       </div>
 
+      <!-- PUBLICACIONES -->
       <div class="sec" id="sec-publi">
-        <div class="ph"><div class="pt">📦 Publicaciones</div><div class="ps">Precios normales, precios con promoción activa y conversión</div></div>
+        <div class="ph"><div class="pt">📦 Publicaciones</div><div class="ps">Precios normales y con promoción activa</div></div>
         <div class="mets" id="mp2"><div class="loading">Cargando...</div></div>
         <div class="card"><div class="tw"><table><thead><tr><th>Título</th><th>Precio normal</th><th>Precio promo</th><th>Descuento</th><th>Stock</th><th>Visitas 30d</th><th>Conversión</th><th>Estado</th></tr></thead><tbody id="ti"></tbody></table></div></div>
       </div>
 
+      <!-- MÉTRICAS -->
       <div class="sec" id="sec-metricas">
-        <div class="ph"><div class="pt">📉 Métricas</div><div class="ps">Visitas, conversión e intención de compra por publicación</div></div>
+        <div class="ph"><div class="pt">📉 Métricas</div><div class="ps">Visitas reales de los últimos 30 días, conversión e intención de compra por publicación</div></div>
         <div class="mets" id="mm2"><div class="loading">Cargando...</div></div>
-        <div class="card"><div class="ch"><div class="ct">📊 Detalle por publicación</div></div><div id="lm"></div></div>
+        <div class="card"><div class="ch"><div class="ct">📊 Detalle por publicación — visitas y conversión reales</div></div><div id="lm"><div class="loading">Cargando...</div></div></div>
       </div>
 
+      <!-- MENSAJES -->
       <div class="sec" id="sec-mensajes">
         <div class="ph"><div class="pt">✉️ Mensajes</div><div class="ps">Últimos mensajes de compradores — no olvidés responder</div></div>
         <div class="mets" id="mmsg"><div class="loading">Cargando...</div></div>
         <div class="card"><div class="ch"><div class="ct">💌 Conversaciones recientes</div></div><div id="lmsg"></div></div>
       </div>
 
+      <!-- PREGUNTAS -->
       <div class="sec" id="sec-preguntas">
         <div class="ph"><div class="pt">💬 Preguntas</div><div class="ps">Preguntas sin responder en tus publicaciones</div></div>
         <div class="card"><div class="ch"><div class="ct">❓ Sin responder</div></div><div id="lp"></div></div>
       </div>
 
+      <!-- RECLAMOS -->
       <div class="sec" id="sec-reclamos">
         <div class="ph"><div class="pt">⚠️ Reclamos</div></div>
         <div class="card"><div class="empty"><div class="ei">✅</div>Sin reclamos activos</div></div>
       </div>
 
+      <!-- FINANZAS -->
       <div class="sec" id="sec-finanzas">
-        <div class="ph"><div class="pt">💰 Finanzas</div><div class="ps">Ingresos netos reales ya descontadas comisiones ML y promociones — se actualiza automáticamente</div></div>
+        <div class="ph"><div class="pt">💰 Finanzas</div><div class="ps">Ingresos netos reales ya descontadas comisiones ML y promociones</div></div>
         <div class="mets" id="mf"><div class="loading">Cargando...</div></div>
         <div class="g2">
           <div class="card"><div class="ch"><div class="ct">📊 Resumen del período</div></div><div id="rf"></div></div>
           <div class="card"><div class="ch"><div class="ct">🧾 Ingresos netos por venta</div></div><div id="mov"></div></div>
         </div>
-        <div class="card"><div class="ch"><div class="ct">📈 Evolución diaria</div></div><div id="ev"></div></div>
+        <div class="card"><div class="ch"><div class="ct">📈 Evolución diaria de ingresos</div></div><div id="ev"></div></div>
       </div>
 
+      <!-- RENTABILIDAD -->
       <div class="sec" id="sec-rentabilidad">
-        <div class="ph"><div class="pt">💹 Rentabilidad</div><div class="ps">Ganancia real por producto contando comisiones ML y promociones</div></div>
+        <div class="ph"><div class="pt">💹 Rentabilidad</div><div class="ps">Ganancia real por producto contando comisiones y promociones</div></div>
         <div class="mets" id="mrent"><div class="loading">Cargando...</div></div>
         <div class="card"><div class="ch"><div class="ct">📦 Ingreso neto por producto</div></div><div id="rp"></div></div>
       </div>
 
+      <!-- PUBLICIDAD -->
       <div class="sec" id="sec-publicidad">
         <div class="ph"><div class="pt">📣 Publicidad</div><div class="ps">Análisis de inversión en Mercado Ads y modelo con socio</div></div>
         <div class="mets" id="mad"><div class="loading">Cargando...</div></div>
         <div class="card"><div class="ch"><div class="ct">💡 Análisis y modelo con socio</div></div><div id="aad"></div></div>
       </div>
 
+      <!-- ANÁLISIS -->
       <div class="sec" id="sec-analisis">
         <div class="ph"><div class="pt">📈 Análisis</div><div class="ps">Métricas avanzadas y proyecciones del negocio</div></div>
         <div class="g2">
@@ -347,10 +325,11 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
         <div class="card"><div class="ch"><div class="ct">🤝 Modelo con socio</div></div><div id="ms2"></div></div>
       </div>
 
+      <!-- REPUTACIÓN -->
       <div class="sec" id="sec-reputacion">
         <div class="ph"><div class="pt">⭐ Reputación</div><div class="ps">Tu nivel y métricas como vendedor</div></div>
         <div class="mets" id="mrep"><div class="loading">Cargando...</div></div>
-        <div class="card"><div class="ch"><div class="ct">📋 Detalle</div></div><div id="drep"></div></div>
+        <div class="card"><div class="ch"><div class="ct">📋 Detalle completo</div></div><div id="drep"></div></div>
       </div>
 
     </div>
@@ -359,7 +338,7 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.15);}
 
 <script>
 const BASE=window.location.origin;
-let DATA={},orders2=[],autoInt=null,cdInt=null,cd=30;
+let DATA={},orders2=[],items2=[],autoInt=null,cdInt=null,cd=30;
 let known=new Set(JSON.parse(localStorage.getItem('ok')||'[]'));
 
 const fmt=n=>'$'+Math.round(n||0).toLocaleString('es-AR');
@@ -424,34 +403,47 @@ function showDetail(id){
   const o=orders2.find(x=>String(x.id)===String(id));if(!o)return;
   const dir=o.shipDetail?.receiver_address||o.shipping?.receiver_address;
   const dom=dir?`${dir.street_name||''} ${dir.street_number||''}, ${dir.city?.name||''}, ${dir.state?.name||''}`.trim():'Sin datos';
-  const nom=`${o.buyer?.first_name||''} ${o.buyer?.last_name||''}`.trim()||o.buyer?.nickname||'—';
+  const nom=`${o.buyer?.first_name||o.buyerDetail?.first_name||''} ${o.buyer?.last_name||o.buyerDetail?.last_name||''}`.trim()||o.buyer?.nickname||'—';
   const c=o.calculado||{};
-  const pct=c.precioOriginal>c.precioVenta?Math.round((1-c.precioVenta/c.precioOriginal)*100):0;
+  const dni=o.buyer?.identification?.number||o.buyerDetail?.identification?.number||'—';
+  const dniType=o.buyer?.identification?.type||o.buyerDetail?.identification?.type||'DNI';
+  const condFiscal=dniType==='CUIT'?'🏢 Responsable Inscripto':'👤 Consumidor Final';
+  const email=o.buyer?.email||o.buyerDetail?.email||'—';
+  const tel=o.buyer?.phone?.number||o.buyerDetail?.phone?.number||'—';
+
   document.getElementById('mc').innerHTML=`
     <div class="neto-box"><div class="nl">💰 Ingreso neto a tu MercadoPago</div><div class="nv">${fmt(c.ingresoNeto||o.total_amount)}</div></div>
-    <div class="ds"><div class="dst">💳 Detalle del pago</div>
-      <div class="dr"><span class="dl">Precio original</span><span class="dv">${fmt(c.precioOriginal||c.precioVenta||o.total_amount)}</span></div>
-      ${pct>0?`<div class="dr"><span class="dl">Descuento promoción (${pct}%) — ${c.promoNombre||'Promo activa'}</span><span class="dv" style="color:var(--orange);">-${fmt(c.descuentoPromo)}</span></div>`:''}
-      <div class="dr"><span class="dl">Precio de venta final</span><span class="dv">${fmt(c.precioVenta||o.total_amount)}</span></div>
-      <div class="dr"><span class="dl">Comisión ML (~13%)</span><span class="dv" style="color:var(--red);">-${fmt(c.comisionML)}</span></div>
-      <div class="dr"><span class="dl">Ingreso neto final</span><span class="dv" style="color:var(--green);font-weight:800;">${fmt(c.ingresoNeto||o.total_amount)}</span></div>
-      <div class="dr"><span class="dl">Estado</span><span class="dv">${bdg(o.status)}</span></div>
+    
+    <div class="ds"><div class="dst">💳 Desglose del precio</div>
+      <div class="precio-box">
+        <div class="precio-row"><span class="dl">Precio original (sin promo)</span><span class="${c.descuentoPromo>0?'precio-tachado':'dv'}">${fmt(c.precioOriginal||o.total_amount)}</span></div>
+        ${c.descuentoPromo>0?`
+        <div class="precio-row"><span class="dl">🏷 Promoción: ${c.promoNombre||'Descuento'} (${c.descuentoPct||0}%)</span><span style="color:var(--orange);font-weight:700;">-${fmt(c.descuentoPromo)}</span></div>
+        <div class="precio-row"><span class="dl" style="font-weight:600;">Precio que pagó el cliente</span><span class="dv" style="font-weight:800;">${fmt(c.precioVenta||o.total_amount)}</span></div>
+        `:`<div class="precio-row"><span class="dl">Precio que pagó el cliente</span><span class="dv">${fmt(c.precioVenta||o.total_amount)}</span></div>`}
+        <div class="precio-row"><span class="dl">Comisión Mercado Libre (~13%)</span><span style="color:var(--red);font-weight:700;">-${fmt(c.comisionML)}</span></div>
+        <div class="precio-row" style="background:var(--green-dim);border-radius:8px;padding:8px;margin-top:4px;"><span class="dl" style="color:var(--green);font-weight:700;">✓ Ingreso neto para vos</span><span style="color:var(--green);font-size:16px;font-weight:900;">${fmt(c.ingresoNeto||o.total_amount)}</span></div>
+      </div>
+      <div class="dr"><span class="dl">Estado de la orden</span><span class="dv">${bdg(o.status)}</span></div>
       <div class="dr"><span class="dl">Fecha y hora</span><span class="dv">${ff(o.date_created)}</span></div>
       <div class="dr"><span class="dl">Orden #</span><span class="dv" style="font-family:monospace;font-size:12px;">${o.id}</span></div>
     </div>
+
     <div class="ds"><div class="dst">📦 Producto</div>
       <div class="dr"><span class="dl">Producto</span><span class="dv">${o.order_items?.[0]?.item?.title||'—'}</span></div>
       <div class="dr"><span class="dl">Cantidad</span><span class="dv">${o.order_items?.[0]?.quantity||1}</span></div>
       <div class="dr"><span class="dl">Precio unitario</span><span class="dv">${fmt(o.order_items?.[0]?.unit_price)}</span></div>
     </div>
+
     <div class="ds"><div class="dst">👤 Datos del comprador</div>
       <div class="dr"><span class="dl">Nombre completo</span><span class="dv">${nom}</span></div>
       <div class="dr"><span class="dl">Usuario ML</span><span class="dv">@${o.buyer?.nickname||'—'}</span></div>
-      <div class="dr"><span class="dl">Email</span><span class="dv">${o.buyer?.email||'—'}</span></div>
-      <div class="dr"><span class="dl">Teléfono</span><span class="dv">${o.buyer?.phone?.number||'—'}</span></div>
-      <div class="dr"><span class="dl">DNI / CUIT</span><span class="dv">${o.buyer?.identification?.number||'—'}</span></div>
-      <div class="dr"><span class="dl">Condición fiscal</span><span class="dv">${o.buyer?.identification?.type==='CUIT'?'🏢 Resp. Inscripto':'👤 Consumidor Final'}</span></div>
+      <div class="dr"><span class="dl">Email</span><span class="dv">${email}</span></div>
+      <div class="dr"><span class="dl">Teléfono</span><span class="dv">${tel}</span></div>
+      <div class="dr"><span class="dl">${dniType} / Documento</span><span class="dv" style="font-weight:800;">${dni}</span></div>
+      <div class="dr"><span class="dl">Condición fiscal</span><span class="dv">${condFiscal}</span></div>
     </div>
+
     <div class="ds"><div class="dst">📍 Datos de envío</div>
       <div class="dr"><span class="dl">Dirección completa</span><span class="dv">${dom}</span></div>
       <div class="dr"><span class="dl">Código postal</span><span class="dv">${dir?.zip_code||'—'}</span></div>
@@ -476,10 +468,10 @@ function renderVentas(ords){
   document.getElementById('tv').innerHTML=ords.map(o=>{
     const c=o.calculado||{},est=o.shipDetail?.status||o.shipping?.status,td=c.descuentoPromo>0;
     return`<tr>
-      <td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">${o.order_items?.[0]?.item?.title||'#'+o.id}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">${o.order_items?.[0]?.item?.title||'#'+o.id}</td>
       <td>${fmt(o.total_amount)}</td>
       <td style="color:var(--green);font-weight:800;">${fmt(c.ingresoNeto||o.total_amount)}</td>
-      <td>${td?`<span class="ptag">🏷 -${fmt(c.descuentoPromo)}</span>`:'<span style="color:var(--text3);font-size:12px;">—</span>'}</td>
+      <td>${td?`<span class="ptag">🏷 -${c.descuentoPct||0}%</span>`:'<span style="color:var(--text3);font-size:12px;">—</span>'}</td>
       <td style="color:var(--text2);font-size:12px;">${o.buyer?.nickname||'—'}</td>
       <td>${bdg(est)}</td><td>${bdg(o.status)}</td>
       <td style="color:var(--text3);font-size:12px;">${fd(o.date_created)}</td>
@@ -492,16 +484,27 @@ async function loadAll(){
   const tok=localStorage.getItem('ml_token'),uid=localStorage.getItem('ml_uid');
   if(!tok)return;
   try{
-    const[dR,sR,mR]=await Promise.all([fetch(`/api/data?token=${tok}&uid=${uid}`),fetch(`/api/stats?token=${tok}&uid=${uid}`),fetch(`/api/messages?token=${tok}&uid=${uid}`)]);
+    const[dR,sR,mR]=await Promise.all([
+      fetch(`/api/data?token=${tok}&uid=${uid}`),
+      fetch(`/api/stats?token=${tok}&uid=${uid}`),
+      fetch(`/api/messages?token=${tok}&uid=${uid}`)
+    ]);
     if(dR.status===401){const ok=await refreshTok();if(ok){await loadAll();return;}else{logout();return;}}
     const[d,s,m]=[await dR.json(),await sR.json(),await mR.json()];
-    if(d.error&&d.error.includes('token')){const ok=await refreshTok();if(ok){await loadAll();return;}else{logout();return;}}
-    DATA={...d,...s,messages:m.messages||[],tok,uid};
+    if(d.error&&String(d.error).includes('token')){const ok=await refreshTok();if(ok){await loadAll();return;}else{logout();return;}}
+    
+    // Merge items: usar items de stats (tienen precioPromo) y visitas de data
+    const statsItems = s.items || [];
+    const dataItems = d.items || [];
+    const mergedItems = statsItems.length > 0 ? statsItems : dataItems;
+
+    DATA={...d,...s,items:mergedItems,messages:m.messages||[],tok,uid};
     orders2=d.orders||[];
+    items2=mergedItems;
     await checkNew(orders2);
     render();
     const now=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    document.getElementById('lu').textContent=`Última actualización: ${now} · Actualiza cada 30 segundos`;
+    document.getElementById('lu').textContent=`Última actualización: ${now} · Se actualiza cada 30 segundos`;
     startAR();
   }catch(e){console.error(e);}
 }
@@ -525,11 +528,12 @@ function render(){
   const enC=orders.filter(o=>o.status==='paid'&&o.shipDetail?.status!=='delivered'&&o.shipping?.status!=='delivered').length;
   const entr=orders.filter(o=>o.shipDetail?.status==='delivered'||o.shipping?.status==='delivered'||o.status==='closed').length;
   const publiMes=360000,percEst=orders.length*8500,ganEst=tN-publiMes-percEst;
+  const convGlobal=totV>0?((orders.length/totV)*100).toFixed(1):'0';
 
   if(questions.length>0){const b=document.getElementById('bp');b.textContent=questions.length;b.style.display='inline-block';}
   if(unread>0){const b=document.getElementById('bm');b.textContent=unread;b.style.display='inline-block';}
 
-  // RESUMEN
+  // RESUMEN - métricas principales
   document.getElementById('mr').innerHTML=`
     <div class="met met-b"><div class="mi">🛒</div><div class="ml2">Ventas</div><div class="mv">${orders.length}</div><div class="ms">órdenes totales</div></div>
     <div class="met met-g"><div class="mi">💵</div><div class="ml2">Ingreso neto</div><div class="mv">${fmt(tN)}</div><div class="ms">sin comisiones ML</div></div>
@@ -539,6 +543,14 @@ function render(){
     <div class="met met-c"><div class="mi">👁</div><div class="ml2">Visitas 30d</div><div class="mv">${totV.toLocaleString('es-AR')}</div></div>
     <div class="met ${questions.length>0?'met-r':''}"><div class="mi">💬</div><div class="ml2">Preguntas</div><div class="mv">${questions.length}</div><div class="ms">sin responder</div></div>
     <div class="met ${unread>0?'met-o':''}"><div class="mi">✉️</div><div class="ml2">Mensajes</div><div class="mv">${unread}</div><div class="ms">sin leer</div></div>
+  `;
+
+  // KPI rápidos
+  document.getElementById('kpi-grid').innerHTML=`
+    <div class="kpi"><div class="kpi-icon">📅</div><div><div class="kpi-label">Ventas por día</div><div class="kpi-val">${vpd}</div><div class="kpi-sub">promedio últimos 30d</div></div></div>
+    <div class="kpi"><div class="kpi-icon">🎯</div><div><div class="kpi-label">Conversión global</div><div class="kpi-val">${convGlobal}%</div><div class="kpi-sub">visitas → ventas</div></div></div>
+    <div class="kpi"><div class="kpi-icon">💰</div><div><div class="kpi-label">Neto por venta</div><div class="kpi-val">${fmt(avgN)}</div><div class="kpi-sub">promedio</div></div></div>
+    <div class="kpi"><div class="kpi-icon">📈</div><div><div class="kpi-label">Ganancia estimada</div><div class="kpi-val" style="color:${ganEst>0?'var(--green)':'var(--red)'}">${fmt(ganEst)}</div><div class="kpi-sub">neto − publi − percepciones</div></div></div>
   `;
 
   const byD={};orders.forEach(o=>{const d=fd(o.date_created);byD[d]=(byD[d]||0)+1;});
@@ -552,7 +564,7 @@ function render(){
   if(questions.length>0)als.push(`<div class="al al-w"><span>💬</span><span>Tenés <strong>${questions.length} pregunta${questions.length>1?'s':''}</strong> sin responder.</span></div>`);
   if(enC>0)als.push(`<div class="al al-i"><span>🔄</span><span><strong>${enC} venta${enC>1?'s':''}</strong> en curso esperando entrega.</span></div>`);
   if(parseFloat(vpd)>=2)als.push(`<div class="al al-s"><span>✅</span><span>Buen ritmo: <strong>${vpd} ventas/día</strong> en promedio.</span></div>`);
-  als.push(`<div class="al al-i"><span>💡</span><span>Con $72k/día de publicidad y ticket de ${fmt(avg)}, necesitás mínimo <strong>3 ventas/día</strong>.</span></div>`);
+  als.push(`<div class="al al-i"><span>💡</span><span>Con $72k/día de publicidad y ticket de ${fmt(avg)}, necesitás mínimo <strong>3 ventas/día</strong> para cubrir la inversión.</span></div>`);
   document.getElementById('al2').innerHTML=als.join('');
 
   // VENTAS
@@ -592,45 +604,56 @@ function render(){
   `;
   document.getElementById('ti').innerHTML=items.map(i=>{
     const vi=orders.filter(o=>o.order_items?.[0]?.item?.id===i.id).length;
-    const cv=i.visits?((vi/i.visits)*100).toFixed(1):0;
-    const dp=i.precioPromo?Math.round((1-i.precioPromo/i.price)*100):0;
+    const cv=i.visits>0?((vi/i.visits)*100).toFixed(1):'0.0';
+    const dp=i.descuentoPct||0;
     return`<tr>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">${i.title||''}</td>
       <td>${fmt(i.price)}</td>
       <td>${i.precioPromo?`<span style="color:var(--green);font-weight:800;">${fmt(i.precioPromo)}</span>`:'<span style="color:var(--text3);">—</span>'}</td>
       <td>${dp>0?`<span class="ptag">-${dp}%</span>`:'—'}</td>
       <td>${i.available_quantity??'—'}</td>
-      <td><div style="display:flex;align-items:center;gap:7px;"><span>${(i.visits||0).toLocaleString()}</span><div class="pw" style="width:45px;"><div class="pf" style="width:${Math.round(((i.visits||0)/maxV)*100)}%"></div></div></div></td>
-      <td>${cv}%</td>
+      <td><div style="display:flex;align-items:center;gap:7px;"><span style="font-weight:700;color:var(--cyan);">${(i.visits||0).toLocaleString()}</span><div class="pw" style="width:45px;"><div class="pf" style="width:${Math.round(((i.visits||0)/maxV)*100)}%"></div></div></div></td>
+      <td><span style="font-weight:700;color:${parseFloat(cv)>2?'var(--green)':'var(--text2)'};">${cv}%</span></td>
       <td>${bdg(i.status)}</td>
     </tr>`;
   }).join('')||'<tr><td colspan="8" class="empty">Sin publicaciones</td></tr>';
 
-  // MÉTRICAS
-  const tc=totV?((orders.length/totV)*100).toFixed(2):0;
+  // MÉTRICAS - sección mejorada con datos reales
   document.getElementById('mm2').innerHTML=`
-    <div class="met met-c"><div class="mi">👁</div><div class="ml2">Visitas 30d</div><div class="mv">${totV.toLocaleString()}</div></div>
-    <div class="met met-b"><div class="mi">📊</div><div class="ml2">Visitas/día</div><div class="mv">${Math.round(totV/30).toLocaleString()}</div></div>
-    <div class="met met-g"><div class="mi">🎯</div><div class="ml2">Conversión</div><div class="mv">${tc}%</div><div class="ms">visitas → ventas</div></div>
-    <div class="met met-p"><div class="mi">🔮</div><div class="ml2">Por 100 visitas</div><div class="mv">${tc}</div><div class="ms">ventas estimadas</div></div>
+    <div class="met met-c"><div class="mi">👁</div><div class="ml2">Visitas totales 30d</div><div class="mv">${totV.toLocaleString()}</div></div>
+    <div class="met met-b"><div class="mi">📊</div><div class="ml2">Visitas/día prom.</div><div class="mv">${Math.round(totV/30).toLocaleString()}</div></div>
+    <div class="met met-g"><div class="mi">🎯</div><div class="ml2">Conversión global</div><div class="mv">${convGlobal}%</div><div class="ms">visitas → ventas</div></div>
+    <div class="met met-p"><div class="mi">🏷</div><div class="ml2">Publis con promo</div><div class="mv">${items.filter(i=>i.precioPromo).length}</div><div class="ms">de ${items.length} totales</div></div>
   `;
-  document.getElementById('lm').innerHTML=items.map(i=>{
-    const vi=orders.filter(o=>o.order_items?.[0]?.item?.id===i.id).length;
-    const cv=i.visits?((vi/i.visits)*100).toFixed(1):0;
-    const pct=Math.round(((i.visits||0)/maxV)*100);
-    return`<div class="imc">
-      <div class="imc-info">
-        <div class="imc-t">${i.title||''}</div>
-        <div class="imc-p">${fmt(i.price)}${i.precioPromo?` → <span style="color:var(--green);font-weight:700;">${fmt(i.precioPromo)}</span>`:''} · ${bdg(i.status)}</div>
-        <div style="margin-top:7px;"><div class="pw"><div class="pf" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px;">${pct}% del máximo</div></div>
-      </div>
-      <div class="imc-stats">
-        <div class="is"><div class="isv">${(i.visits||0).toLocaleString()}</div><div class="isl">Visitas</div></div>
-        <div class="is"><div class="isv">${vi}</div><div class="isl">Ventas</div></div>
-        <div class="is"><div class="isv" style="color:var(--green);">${cv}%</div><div class="isl">Conv.</div></div>
-      </div>
-    </div>`;
-  }).join('')||'<div class="empty"><div class="ei">📊</div>Sin datos</div>';
+
+  if(items.length===0){
+    document.getElementById('lm').innerHTML='<div class="empty"><div class="ei">📊</div>Cargando métricas...</div>';
+  } else {
+    document.getElementById('lm').innerHTML=items.map(i=>{
+      const vi=orders.filter(o=>o.order_items?.[0]?.item?.id===i.id).length;
+      const cv=i.visits>0?((vi/i.visits)*100).toFixed(1):'0.0';
+      const pct=Math.round(((i.visits||0)/maxV)*100);
+      const dp=i.descuentoPct||0;
+      return`<div class="imc">
+        <div class="imc-info">
+          <div class="imc-t">${i.title||''}</div>
+          <div class="imc-p">
+            ${dp>0?`<span class="ptag" style="margin-right:6px;">🏷 ${i.nombrePromo||'Promo'} -${dp}%</span>`:''}
+            ${fmt(i.price)}${i.precioPromo?` → <span style="color:var(--green);font-weight:700;">${fmt(i.precioPromo)}</span>`:''} · ${bdg(i.status)}
+          </div>
+          <div style="margin-top:7px;display:flex;align-items:center;gap:8px;">
+            <div class="pw" style="flex:1;"><div class="pf" style="width:${pct}%"></div></div>
+            <span style="font-size:11px;color:var(--text3);">${pct}% del máximo</span>
+          </div>
+        </div>
+        <div class="imc-stats">
+          <div class="is"><div class="isv" style="color:var(--cyan);">${(i.visits||0).toLocaleString()}</div><div class="isl">Visitas 30d</div></div>
+          <div class="is"><div class="isv">${vi}</div><div class="isl">Ventas</div></div>
+          <div class="is"><div class="isv" style="color:${parseFloat(cv)>2?'var(--green)':'var(--text2)'};">${cv}%</div><div class="isl">Conv.</div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
   // MENSAJES
   document.getElementById('mmsg').innerHTML=`
@@ -640,9 +663,9 @@ function render(){
   `;
   document.getElementById('lmsg').innerHTML=messages.length?messages.map(m=>`
     <div class="mi2">
-      <div class="mh"><div class="mb">${m.status==='unread'?'<span class="mu-dot"></span>':''}${m.from?.nickname||'Comprador'}</div><div class="md">${ft(m.date_received||m.date_created)}</div></div>
-      <div class="mp">📦 Orden #${m.order_id||'—'}</div>
-      <div class="mt2">${(m.text?.plain||m.message||'Sin texto').substring(0,200)}</div>
+      <div class="mh"><div class="mb2">${m.status==='unread'?'<span class="mu-dot"></span>':''}${m.from?.nickname||'Comprador'}</div><div class="md">${ft(m.date_received||m.date_created)}</div></div>
+      <div class="mp2">📦 Orden #${m.order_id||'—'}</div>
+      <div class="mt2">${(m.text?.plain||m.message||'Sin texto').substring(0,250)}</div>
     </div>`).join(''):'<div class="empty"><div class="ei">✉️</div>No hay mensajes recientes</div>';
 
   // PREGUNTAS
@@ -665,11 +688,11 @@ function render(){
   `;
   document.getElementById('rf').innerHTML=`
     <div class="sr"><span class="sl">Facturación bruta</span><span class="sv">${fmt(tF)}</span></div>
-    <div class="sr"><span class="sl">Comisiones ML</span><span class="sv" style="color:var(--red);">-${fmt(tC)}</span></div>
-    <div class="sr"><span class="sl">Descuentos por promo</span><span class="sv" style="color:var(--orange);">-${fmt(tD)}</span></div>
+    <div class="sr"><span class="sl">Comisiones ML (~13%)</span><span class="sv" style="color:var(--red);">-${fmt(tC)}</span></div>
+    <div class="sr"><span class="sl">Descuentos por promoción</span><span class="sv" style="color:var(--orange);">-${fmt(tD)}</span></div>
     <div class="sr"><span class="sl" style="font-weight:700;">Ingreso neto real</span><span class="sv" style="color:var(--green);font-size:16px;">${fmt(tN)}</span></div>
-    <div class="sr"><span class="sl">— Publicidad</span><span class="sv" style="color:var(--red);">-${fmt(publiMes)}</span></div>
-    <div class="sr"><span class="sl">— Percepciones est.</span><span class="sv" style="color:var(--red);">-${fmt(percEst)}</span></div>
+    <div class="sr"><span class="sl">— Publicidad mensual</span><span class="sv" style="color:var(--red);">-${fmt(publiMes)}</span></div>
+    <div class="sr"><span class="sl">— Percepciones estimadas</span><span class="sv" style="color:var(--red);">-${fmt(percEst)}</span></div>
     <div class="sr"><span class="sl" style="font-weight:800;">Ganancia estimada</span><span class="sv" style="color:${ganEst>0?'var(--green)':'var(--red)'};font-size:17px;">${fmt(ganEst)}</span></div>
   `;
   document.getElementById('mov').innerHTML=orders.slice(0,10).map(o=>`
@@ -691,7 +714,7 @@ function render(){
       <div class="imc-info">
         <div class="imc-t">${t}...</div>
         <div class="imc-p">${d.v} ventas · Neto prom: ${fmt(d.n/d.v)}</div>
-        ${d.d>0?`<div class="ptag" style="margin-top:4px;">🏷 Descuentos aplicados: -${fmt(d.d)}</div>`:''}
+        ${d.d>0?`<div class="ptag" style="margin-top:4px;">🏷 Descuentos totales: -${fmt(d.d)}</div>`:''}
       </div>
       <div class="imc-stats">
         <div class="is"><div class="isv">${d.v}</div><div class="isl">Ventas</div></div>
@@ -719,14 +742,14 @@ function render(){
   `;
 
   // ANÁLISIS
-  const cr=totV?((orders.length/totV)*100).toFixed(2):0;
   document.getElementById('mk').innerHTML=`
     <div class="sr"><span class="sl">Ventas/día (prom.)</span><span class="sv">${vpd}</span></div>
     <div class="sr"><span class="sl">Ingreso neto/día</span><span class="sv">${fmt(tN/30)}</span></div>
     <div class="sr"><span class="sl">Ticket promedio</span><span class="sv">${fmt(avg)}</span></div>
     <div class="sr"><span class="sl">Neto promedio/venta</span><span class="sv">${fmt(avgN)}</span></div>
-    <div class="sr"><span class="sl">Tasa de conversión</span><span class="sv">${cr}%</span></div>
+    <div class="sr"><span class="sl">Tasa de conversión</span><span class="sv">${convGlobal}%</span></div>
     <div class="sr"><span class="sl">Visitas totales 30d</span><span class="sv">${totV.toLocaleString()}</span></div>
+    <div class="sr"><span class="sl">Publicaciones activas</span><span class="sv">${actI}</span></div>
   `;
   document.getElementById('proy').innerHTML=`
     <div class="sr"><span class="sl">Ventas proy./mes</span><span class="sv">${Math.round(parseFloat(vpd)*30)}</span></div>
