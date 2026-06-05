@@ -19,52 +19,53 @@ export default async function handler(req, res) {
     const itemsSearch = await itemsR.json();
     const orders = ordersData.results || [];
 
-    // Detalle completo de cada orden
+    // Detalle completo de cada orden con datos del comprador
     const ordersWithDetail = await Promise.all(orders.slice(0, 30).map(async (order) => {
       try {
-        const [orderDetailR, shipR] = await Promise.all([
+        const [orderDetailR, shipR, buyerR] = await Promise.all([
           fetch(`https://api.mercadolibre.com/orders/${order.id}`, { headers }),
           order.shipping?.id
             ? fetch(`https://api.mercadolibre.com/shipments/${order.shipping.id}`, { headers })
+            : Promise.resolve(null),
+          order.buyer?.id
+            ? fetch(`https://api.mercadolibre.com/users/${order.buyer.id}`, { headers })
             : Promise.resolve(null)
         ]);
 
         const orderDetail = await orderDetailR.json();
         const shipDetail = shipR ? await shipR.json() : null;
-
-        // Datos del comprador completos
-        let buyerDetail = null;
-        try {
-          const buyerR = await fetch(`https://api.mercadolibre.com/users/${order.buyer?.id}`, { headers });
-          buyerDetail = await buyerR.json();
-        } catch(e) {}
+        const buyerDetail = buyerR ? await buyerR.json() : null;
 
         const item = orderDetail.order_items?.[0];
-        const precioOriginal = item?.full_unit_price || item?.unit_price || 0;
-        const precioVenta = item?.unit_price || 0;
-        const cantidad = item?.quantity || 1;
-        const totalOriginal = precioOriginal * cantidad;
-        const totalVenta = precioVenta * cantidad;
-        const descuentoPromo = totalOriginal > totalVenta ? totalOriginal - totalVenta : (orderDetail.coupon?.amount || 0);
-        const comisionML = totalVenta * 0.13;
-        const ingresoNeto = totalVenta - comisionML;
+        const precioOriginal = (item?.full_unit_price || item?.unit_price || 0) * (item?.quantity || 1);
+        const precioVenta = (item?.unit_price || 0) * (item?.quantity || 1);
+        const descuentoPromo = precioOriginal > precioVenta ? precioOriginal - precioVenta : (orderDetail.coupon?.amount || 0);
+        const comisionML = precioVenta * 0.13;
+        const ingresoNeto = precioVenta - comisionML;
+        const descuentoPct = precioOriginal > 0 ? Math.round((descuentoPromo / precioOriginal) * 100) : 0;
+        const promoNombre = descuentoPromo > 0 ? 'Descuento aplicado' : 'Sin promoción';
 
-        // Nombre de la promoción
-        let promoNombre = 'Sin promoción';
-        if (descuentoPromo > 0) {
-          promoNombre = item?.sale_fee ? 'Precio especial ML' : 'Descuento aplicado';
-        }
+        // Datos del comprador con DNI/CUIT
+        const buyerMerged = {
+          ...order.buyer,
+          ...buyerDetail,
+          identification: buyerDetail?.identification || order.buyer?.identification,
+          phone: buyerDetail?.phone || order.buyer?.phone,
+          email: buyerDetail?.email || order.buyer?.email,
+          first_name: buyerDetail?.first_name || order.buyer?.first_name,
+          last_name: buyerDetail?.last_name || order.buyer?.last_name,
+        };
 
         return {
           ...order,
           ...orderDetail,
+          buyer: buyerMerged,
           shipDetail,
-          buyerDetail,
           calculado: {
-            precioOriginal: Math.round(totalOriginal),
-            precioVenta: Math.round(totalVenta),
+            precioOriginal: Math.round(precioOriginal),
+            precioVenta: Math.round(precioVenta),
             descuentoPromo: Math.round(descuentoPromo),
-            descuentoPct: totalOriginal > 0 ? Math.round((descuentoPromo / totalOriginal) * 100) : 0,
+            descuentoPct,
             comisionML: Math.round(comisionML),
             ingresoNeto: Math.round(ingresoNeto),
             promoNombre
@@ -75,7 +76,7 @@ export default async function handler(req, res) {
       }
     }));
 
-    // Items básicos con visitas
+    // Items con visitas
     let items = [];
     const itemIds = (itemsSearch.results || []).slice(0, 20);
     if (itemIds.length > 0) {
@@ -84,11 +85,25 @@ export default async function handler(req, res) {
         fetch(`https://api.mercadolibre.com/users/${uid}/items/visits?ids=${itemIds.join(',')}&last_30_days=true`, { headers })
       ]);
       const itemsData = await itemsDetailR.json();
-      const visitsData = await visitsR.json().catch(() => ({}));
+      const visitsRaw = await visitsR.json().catch(() => ({}));
+      
+      // Normalizar visitas - puede venir como objeto o array
+      const visitsMap = {};
+      if (Array.isArray(visitsRaw)) {
+        visitsRaw.forEach(v => { if(v.item_id) visitsMap[v.item_id] = v.visits || 0; });
+      } else if (visitsRaw.data_by_date) {
+        // Formato alternativo
+        Object.keys(visitsRaw).forEach(k => { visitsMap[k] = visitsRaw[k] || 0; });
+      } else {
+        Object.assign(visitsMap, visitsRaw);
+      }
+
       items = itemsData.map(r => {
         const item = r.body || r;
-        return { ...item, visits: visitsData[item.id] || 0 };
-      }).filter(i => i && i.id);
+        if (!item?.id) return null;
+        const visits = visitsMap[item.id] || visitsMap[String(item.id)] || 0;
+        return { ...item, visits };
+      }).filter(Boolean);
     }
 
     res.status(200).json({ user, orders: ordersWithDetail, items });
