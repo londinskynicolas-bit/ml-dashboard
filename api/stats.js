@@ -26,18 +26,28 @@ export default async function handler(req, res) {
       ]);
 
       const itemsDetail = await itemsDetailR.json();
-      const visitsData = await visitsR.json().catch(() => ({}));
+      const visitsRaw = await visitsR.json().catch(() => ({}));
+
+      // Normalizar visitas
+      const visitsMap = {};
+      if (Array.isArray(visitsRaw)) {
+        visitsRaw.forEach(v => { if(v.item_id) visitsMap[v.item_id] = v.visits || 0; });
+      } else {
+        Object.assign(visitsMap, visitsRaw);
+      }
 
       items = await Promise.all(itemsDetail.map(async r => {
         const item = r.body || r;
         if (!item?.id) return null;
 
+        const visits = visitsMap[item.id] || visitsMap[String(item.id)] || 0;
+
+        // Precio promocional real
         let precioPromo = null;
         let nombrePromo = null;
         let descuentoPct = 0;
 
         try {
-          // Buscar precio promocional real
           const salePriceR = await fetch(
             `https://api.mercadolibre.com/items/${item.id}/sale_price?context=channel_marketplace`,
             { headers }
@@ -50,16 +60,7 @@ export default async function handler(req, res) {
           }
         } catch(e) {}
 
-        // Visitas del item
-        const visits = visitsData[item.id] || 0;
-
-        return {
-          ...item,
-          visits,
-          precioPromo,
-          nombrePromo,
-          descuentoPct
-        };
+        return { ...item, visits, precioPromo, nombrePromo, descuentoPct };
       }));
 
       items = items.filter(Boolean);
